@@ -19,6 +19,7 @@
 <script>
 import { ref } from 'vue';
 import { useAuth } from '../AuthContext';
+import { useRouter } from 'vue-router';
 
 export default {
     setup() {
@@ -26,12 +27,21 @@ export default {
         const email = ref('');
         const password = ref('');
         const isSignUp = ref(false);
+        const router = useRouter();
 
         const handleSubmit = async () => {
-            if (isSignUp.value) {
-                await signUp(email.value, password.value);
-            } else {
-                await handleSignIn(email.value, password.value);
+            try {
+                if (isSignUp.value) {
+                    await signUp(email.value, password.value);
+                } else {
+                    await handleSignIn(email.value, password.value);
+                }
+
+                router.push('./HomeView.vue');
+
+                window.location.reload();
+            } catch (err) {
+                console.error('Authentication failed', err);
             }
         };
 

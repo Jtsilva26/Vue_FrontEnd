@@ -53,14 +53,12 @@ onMounted(() => {
           <RouterLink to="/" class="nav-links" @click="closeMobileMenu">Home</RouterLink>
         </li>
 
-        <!-- Conditional rendering based on user authentication -->
         <li class="nav-item">
           <RouterLink v-if="user" to="/services" class="nav-links" @click="closeMobileMenu">Services</RouterLink>
           <span v-else class="nav-links disabled" @click="closeMobileMenu">Services (Sign in to access)</span>
         </li>
       </ul>
 
-      <!-- Button for Sign In/Out based on authentication status -->
       <div v-if="buttonVisible">
         <button v-if="user" @click="handleSignOut" class="btn btn--outline">SIGN OUT</button>
         <RouterLink v-else to="/signin">
@@ -70,20 +68,19 @@ onMounted(() => {
     </div>
   </nav>
 
-  <!-- Router outlet for nested components -->
   <RouterView />
 </template>
 
 <style scoped>
-
 .navbar {
   background: #333;
   height: 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: normal;
+  align-items: normal;
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 1000;
 }
