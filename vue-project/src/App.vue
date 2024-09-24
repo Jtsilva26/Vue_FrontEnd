@@ -1,86 +1,173 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useAuth } from './AuthContext'; // Assuming AuthContext handles authentication
+
+// State for mobile menu and button visibility
+const click = ref(false);
+const buttonVisible = ref(true);
+
+// Auth state
+const { user, handleSignOut } = useAuth();
+
+// Toggle mobile menu visibility
+const handleClick = () => {
+    click.value = !click.value;
+};
+
+// Close mobile menu when a link is clicked
+const closeMobileMenu = () => {
+    click.value = false;
+};
+
+// Show or hide button based on screen size
+const showButton = () => {
+    if (window.innerWidth <= 960) {
+        buttonVisible.value = false;
+    } else {
+        buttonVisible.value = true;
+    }
+};
+
+// Add event listeners to handle window resize
+onMounted(() => {
+    showButton();
+    window.addEventListener('resize', showButton);
+});
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <nav class="navbar">
+    <div class="navbar-container">
+      <RouterLink to="/" class="navbar-logo" @click="closeMobileMenu">
+        PHOENIX CAPITAL GROUP <i class="navbar-logo-icon"></i>
+      </RouterLink>
+      
+      <div class="menu-icon" @click="handleClick">
+        <i :class="click ? 'fas fa-times' : 'fas fa-bars'"></i>
+      </div>
+      
+      <ul :class="click ? 'nav-menu active' : 'nav-menu'">
+        <li class="nav-item">
+          <RouterLink to="/" class="nav-links" @click="closeMobileMenu">Home</RouterLink>
+        </li>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+        <!-- Conditional rendering based on user authentication -->
+        <li class="nav-item">
+          <RouterLink v-if="user" to="/services" class="nav-links" @click="closeMobileMenu">Services</RouterLink>
+          <span v-else class="nav-links disabled" @click="closeMobileMenu">Services (Sign in to access)</span>
+        </li>
+      </ul>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/signin">Sign In</RouterLink>
-      </nav>
+      <!-- Button for Sign In/Out based on authentication status -->
+      <div v-if="buttonVisible">
+        <button v-if="user" @click="handleSignOut" class="btn btn--outline">SIGN OUT</button>
+        <RouterLink v-else to="/signin">
+          <button class="btn btn--outline">SIGN IN</button>
+        </RouterLink>
+      </div>
     </div>
-  </header>
-
+  </nav>
+  
+  <!-- Router outlet for nested components -->
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.navbar {
+  background: #333;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
   width: 100%;
-  font-size: 12px;
+  max-width: 1500px;
+}
+
+.navbar-logo {
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  display: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
   text-align: center;
-  margin-top: 2rem;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.nav-item {
+  height: 80px;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.nav-links {
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.nav-links.disabled {
+  color: gray;
+  cursor: not-allowed;
 }
 
-nav a:first-of-type {
-  border: 0;
+.btn--outline {
+  border: 1px solid #fff;
+  background: none;
+  color: #fff;
+  padding: 10px 22px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-@media (min-width: 1024px) {
-  header {
+/* Mobile menu styles */
+@media screen and (max-width: 960px) {
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .nav-menu {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: 90vh;
+    background: #333;
+    transition: all 0.5s ease;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  .nav-menu.active {
+    left: 0;
+    transition: all 0.5s ease;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  .nav-links {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
   }
 }
+
 </style>
