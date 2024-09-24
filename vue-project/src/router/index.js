@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import SignInPage from '../views/SignInPage.vue'
+import { useAuth } from '../AuthContext';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,15 @@ const router = createRouter({
       component: SignInPage
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const { user } = useAuth();
+  if (to.meta.requiresAuth && !user.value) {
+    next({ name: 'signin' });
+  } else {
+    next();
+  }
+});
 
 export default router

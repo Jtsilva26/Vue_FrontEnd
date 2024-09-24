@@ -1,6 +1,14 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/NavBar.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+  },
+};
 </script>
 
 <template>

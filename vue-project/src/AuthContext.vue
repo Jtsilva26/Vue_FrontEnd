@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import { useAuthProvider } from './AuthConext';
+import { useAuth } from './AuthConext';
 
 export default {
     setup() {
-        useAuthProvider();
+        useAuth();
     },
 };
 </script>
