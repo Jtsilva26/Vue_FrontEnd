@@ -1,16 +1,4 @@
 <script setup>
-<<<<<<< HEAD
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import Navbar from './components/NavBar.vue'
-
-export default {
-  name: 'App',
-  components: {
-    Navbar,
-  },
-};
-=======
 import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { useAuth } from './AuthContext'; // Assuming AuthContext handles authentication
@@ -47,7 +35,6 @@ onMounted(() => {
     window.addEventListener('resize', showButton);
 });
 
->>>>>>> 36590a98f2b171d5b97064e71360f8c726710ffb
 </script>
 
 <template>
