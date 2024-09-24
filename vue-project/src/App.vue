@@ -75,64 +75,48 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.navbar-logo img {
-  width: 300px;
-  height: auto;
-}
 
 .navbar {
-  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  background: #333;
   height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 999;
-  flex-wrap: nowrap;
-
+  width: 100%;
+  z-index: 1000;
 }
 
 .navbar-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   height: 80px;
+  width: 100%;
   max-width: 1500px;
-  flex-wrap: nowrap;
+}
 
+
+body {
+  padding-top: 80px;
 }
 
 .navbar-logo {
-  position: absolute;
-  left: 20px;
-  top: 15%;
-  left: 1%;
   color: #fff;
   cursor: pointer;
-  text-decoration: none;
   font-size: 2rem;
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
 }
 
-.fa-typo3 {
-  margin-left: 0.5rem;
-  font-size: 1.8rem;
+.menu-icon {
+  display: none;
 }
 
 .nav-menu {
   display: flex;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 10px;
   list-style: none;
   text-align: center;
-  width: 60vw;
-  justify-content: end;
-  margin-right: 2rem;
-  flex-wrap: nowrap;
-
 }
 
 .nav-item {
@@ -141,11 +125,12 @@ onMounted(() => {
 
 .nav-links {
   color: #fff;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  height: 100%;
   display: flex;
   align-items: center;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  height: 100%;
+  cursor: pointer;
 }
 
 .nav-links.disabled {
@@ -153,49 +138,39 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-.nav-links:hover {
-  border-bottom: 4px solid #fff;
-  transition: all 0.2s ease-out;
-}
-
-.fa-bars {
+/* Button styling */
+.btn--outline {
+  border: 1px solid #fff;
+  background: none;
   color: #fff;
+  padding: 10px 22px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.nav-links-mobile {
-  display: none;
-}
-
-.menu-icon {
-  display: none;
-}
-
+/* Mobile menu styles */
 @media screen and (max-width: 960px) {
-  .NavbarItems {
-    position: relative;
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    color: #fff;
   }
 
   .nav-menu {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 90vh;
     position: absolute;
     top: 80px;
     left: -100%;
-    opacity: 1;
+    width: 100%;
+    height: 90vh;
+    background: #333;
     transition: all 0.5s ease;
-    flex-wrap: nowrap;
-
   }
 
   .nav-menu.active {
-    background: #242222;
     left: 0;
-    height: auto;
-    opacity: 1;
     transition: all 0.5s ease;
-    z-index: 1;
   }
 
   .nav-links {
@@ -203,57 +178,6 @@ onMounted(() => {
     padding: 2rem;
     width: 100%;
     display: table;
-  }
-
-  .nav-links:hover {
-    background-color: #fff;
-    color: #242424;
-    border-radius: 0;
-  }
-
-  .navbar-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(25%, 50%);
-  }
-
-  .menu-icon {
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 60%);
-    font-size: 1.8rem;
-    cursor: pointer;
-    flex-wrap: nowrap;
-
-  }
-
-  .fa-times {
-    color: #fff;
-    font-size: 2rem;
-  }
-
-  .nav-links-mobile {
-    display: block;
-    text-align: center;
-    margin: 2rem auto;
-    border-radius: 4px;
-    width: 80%;
-    text-decoration: none;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: #fff;
-    padding: 14px 20px;
-    border: 1px solid #fff;
-    transition: all 0.3s ease-out;
-  }
-
-  .nav-links-mobile:hover {
-    background: #fff;
-    color: #242424;
-    transition: 250ms;
   }
 }
 </style>
