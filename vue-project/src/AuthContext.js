@@ -1,18 +1,13 @@
-// src/AuthContext.js
-
-import { computed, inject, onMounted, provide, reactive } from 'vue';
+import { reactive, toRefs, onMounted } from 'vue';
 import app from './realmApp';
-import { signIn, signOut, signUp as registerUser } from './auth'; // Importing signUp as registerUser for clarity
-
-
-
-//Key for injection
-const AuthContextKey = Symbol('AuthContext');
+import { signIn, signOut, signUp as registerUser } from './Auth'; // Importing signUp as registerUser for clarity
 
 //AuthProvider component that wraps around the app to provide authentication context
-export function useAuthProvider() {
+export function useAuth() {
     const state = reactive({
         user: null,
+        error: null,
+        message: null,
     });
 
     onMounted(() => {
@@ -24,33 +19,43 @@ export function useAuthProvider() {
 
     //Function to handle user sign-in
     const handleSignIn = async (email, password) => {
-        const user = await signIn(email, password); //Attempt to sign in with provided credentials
-        state.user = user;
+        try {
+            state.user = await signIn(email, password);
+            state.message = "Logged in successfully!";
+            state.error = null;
+        } catch (err) {
+            state.error = err.message;
+            state.message = null;
+        }
+
     };
 
     //Function to handle user sign-out
     const handleSignOut = async () => {
         await signOut(); //Calls signOut function to log out the user
         state.user = null;
+        state.message = "Logged out successfully!";
+        state.error = null;
     };
 
     //Function to handle user registration
     const signUp = async (email, password) => {
-        return await registerUser(email, password); //Register a new user and return the user object
+        try {
+            const msg = await registerUser(email, password);
+            state.message = msg;
+            state.error = null;
+            await handleSignIn(email, password);
+        } catch (err) {
+            state.error = err.message;
+            state.message = null;
+        }
     };
 
-    provide(AuthContextKey, {
-        user: computed(() => state.user),
+
+    return {
+        ...toRefs(state),
         handleSignIn,
         handleSignOut,
         signUp,
-    });
+    };
 };
-
-export function useAuth() {
-    const auth = inject(AuthContextKey);
-    if (!auth) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return auth;
-}

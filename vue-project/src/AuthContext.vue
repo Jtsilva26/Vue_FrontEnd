@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { useAuthProvider } from '@/AuthConext';
+import { useAuthProvider } from './AuthConext';
 
 export default {
     setup() {
