@@ -41,7 +41,7 @@ export default {
                     await handleSignIn(email.value, password.value);
                 }
 
-                router.push('./HomeView.vue');
+                router.push('/');
 
                 window.location.reload();
             } catch (err) {

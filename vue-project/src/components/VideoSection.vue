@@ -10,10 +10,11 @@
             "Together, we'll find solutions"
         </p>
         <div class="mt-8">
-            <button
-                class="bg-transparent border border-white text-white py-3 px-6 rounded hover:bg-white hover:text-black transition duration-300">
-                GET STARTED
-            </button>
+            <RouterLink to="/signin">
+                <button
+                    class="bg-transparent border border-white text-white py-3 px-6 rounded hover:bg-white hover:text-black transition duration-300">
+                    GET STARTED</button>
+            </RouterLink>
         </div>
     </div>
 </template>
