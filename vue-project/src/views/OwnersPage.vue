@@ -8,9 +8,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import CreateOwner from '../CreateOwner.vue';
-import OwnersList from '../OwnersList.vue';
-import app from '../../realmApp';
+import CreateOwner from '../components/CreateOwners.vue';
+import OwnersList from '../components/OwnersList.vue';
+import app from '../realmApp';
 
 const owners = ref([]); // Reactive variable to hold owners
 
