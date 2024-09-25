@@ -6,6 +6,6 @@
 
 <script>
 
-import CreateOwner from '../components/CreateOwner.vue';
+import CreateOwner from '../components/CreateOwners.vue';
 
 </script>
