@@ -11,8 +11,7 @@ export default {
 </script>
 
 <template>
-  <main>
-    <h1> Welcome to the Home Page! </h1>
-    <VideoSection></VideoSection>
-  </main>
+
+  <VideoSection></VideoSection>
+
 </template>

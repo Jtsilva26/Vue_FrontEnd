@@ -1,7 +1,5 @@
 <template>
     <div class="relative w-full h-screen flex flex-col justify-center items-center">
-        <video src="../../public/videos/mountain.mp4" autoplay loop muted
-            class="absolute top-0 left-0 w-full h-full object-cover z-0" />
         <h1 class="text-white text-[100px] -mt-24 sm:text-[70px] md:text=[50px]">
             JOIN OUR TEAM
         </h1>
@@ -14,6 +12,8 @@
                 GET STARTED
             </button>
         </div>
+        <video src="../../public/videos/mountain.mp4" autoplay loop muted
+            class="absolute top-0 left-0 w-full h-full object-cover z-0" />
     </div>
 </template>
 
