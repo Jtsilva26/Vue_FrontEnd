@@ -1,5 +1,5 @@
 <template>
-    <div class="owners-page">
+    <div class="p-20">
         <h1 class="text-3xl font-bold mb-4">Manage Owners</h1>
         <CreateOwner @data-fetched="fetchData" />
         <OwnersList :owners="owners" :fetchData="fetchData" />
@@ -31,10 +31,3 @@ onMounted(() => {
     fetchData();
 });
 </script>
-
-<style scoped>
-/* Any styles specific to OwnersPage can go here */
-.owners-page {
-    padding: 20px;
-}
-</style>

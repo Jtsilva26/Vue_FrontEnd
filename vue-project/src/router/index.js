@@ -4,7 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import SignInPage from '../views/SignInPage.vue'
 import ServicePage from '../views/ServicePage.vue'
 import OwnersPage from '../views/OwnersPage.vue'
-import LandHoldingsPage from '@/views/LandHoldingsPage.vue'
+import LandHoldingsPage from '../views/LandHoldingsPage.vue'
 import { useAuth } from '../AuthContext';
 
 const router = createRouter({

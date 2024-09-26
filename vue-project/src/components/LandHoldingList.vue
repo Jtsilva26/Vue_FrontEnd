@@ -2,7 +2,7 @@
     <div>
         <h2 class="text 2xl font-bold mb-4">Land Holdings</h2>
         <table class="min-w-full table-auto border-collapse">
-            <thead class="bg-grat-200">
+            <thead class="bg-gray-200">
                 <tr>
                     <th class="border px-4 py-2 text-left">Owner Name</th>
                     <th class="border px-4 py-2 text-left">Legal Entity</th>
@@ -55,10 +55,10 @@ export default {
             const ownersData = await collection.find({});
             const ownersMap = {};
 
-            ownersData.forEach(owner -> {
+            ownersData.forEach(owner => {
                 ownersMap[owner._id] = owner.ownerName;
             });
-            owner.value = owner.ownerName;
+            owner.value = owner.ownersMap;
         });
 
         const handleDelete = async (id) => {
