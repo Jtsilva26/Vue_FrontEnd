@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="text 2xl font-bold mb-4">Land Holdings</h2>
+        <h2 class="text-2xl font-bold mb-4">Land Holdings</h2>
         <table class="min-w-full table-auto border-collapse">
             <thead class="bg-gray-200">
                 <tr>
@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr v-for="holding in landHoldings" :key="holding._id" class="hover:bg-gray-100">
-                    <td class="border px-4 py-2">{{ owners[holding.ownerId] }}</td>
+                    <td class="border px-4 py-2">{{ owners[holding.ownerId]?.ownerName }}</td>
                     <td class="border px-4 py-2">{{ holding.legalEntity }}</td>
                     <td class="border px-4 py-2">{{ holding.netMineralAcres }}</td>
                     <td class="border px-4 py-2">{{ holding.mineralOwnerRoyalty }}</td>
@@ -24,55 +24,57 @@
                     <td class="border px-4 py-2">{{ holding.township }}</td>
                     <td class="border px-4 py-2">{{ holding.range }}</td>
                     <td class="border px-4 py-2">
-                        <button @click="handleDelete(holding._id)"
+                        <button @click="() => handleDelete(holding._id)"
                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
                             Delete
                         </button>
                     </td>
-                </tr>>
+                </tr>
             </tbody>
         </table>
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 import app from '../RealmApp';
 
-export default {
-    props: {
-        user: Object,
-        landHoldings: Array,
-        setLandHoldings: Function,
-        fetchData, Function
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
     },
-    setup(props) {
-        const owners = ref({});
+    landHoldings: {
+        type: Array,
+        required: true,
+    },
+    setLandHoldings: {
+        type: Function,
+        required: true,
+    },
+    fetchData: {
+        type: Function,
+        required: true,
+    }
+});
 
-        onMounted(async () => {
-            const mongo = app.currentUser.mongoClient('mongodb-atlas');
-            const collection = mongo.db('Owners_DB').collection('Owners');
-            const ownersData = await collection.find({});
-            const ownersMap = {};
+const owners = ref({});
 
-            ownersData.forEach(owner => {
-                ownersMap[owner._id] = owner.ownerName;
-            });
-            owner.value = owner.ownersMap;
-        });
+const fetchOwners = async () => {
+    const mongo = app.currentUser
+}
 
-        const handleDelete = async (id) => {
-            const mongo = app.currentUser.mongoClient('mongodb-atlas');
-            const collection = mongo.db('Owners_DB').collection('LandHoldings');
+const handleDelete = async (id) => {
+    if (confirm("Are you sure you want to delete this land holding?")) {
+        try {
+            const mongo = app.currentUser.mongoClient("mongodb-atlas");
+            const collection = mongo.db("Owners_DB").collection("LandHoldings");
             await collection.deleteOne({ _id: id });
-            props.setLandHoldings(props.landHoldings.filter(item => item._id !== id));
+            props.setLandHoldings(props.landHoldings.filter(item => item._id != id));
             props.fetchData();
-        };
-
-        return {
-            owners,
-            handleDelete
-        };
+        } catch (error) {
+            console.error("Error deleting land holding:", error);
+        }
     }
 };
 </script>

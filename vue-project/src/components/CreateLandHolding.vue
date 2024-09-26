@@ -73,114 +73,85 @@
             class="button bg-blue-500 text-white p-3 rounded hover:bg-blue-700 transition-colors duration-300">
             Create
         </button>
-
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 import app from '../RealmApp';
 
-export default {
-    name: 'CreateLandHolding',
-    props: ['fetchData'],
-    setup(props) {
-        const owners = ref('');
-        const selectOwnerId = ref('');
-        const legalEntity = ref('');
-        const netMineralAcres = ref(0);
-        const mineralOwnerRoyalty = ref(0);
-        const section = ref('');
-        const township = ref('');
-        const range = ref('');
-        const titleSource = ref('');
-        const sectionName = ref('');
-        const name = ref('');
-        const error = ref('');
-        const statusMessage = ref('');
+const owners = ref([]);
+const selectOwnerId = ref('');
+const legalEntity = ref('');
+const netMineralAcres = ref(0);
+const mineralOwnerRoyalty = ref(0);
+const section = ref('');
+const township = ref('');
+const range = ref('');
+const titleSource = ref('');
+const error = ref('');
+const statusMessage = ref('');
 
-        onMounted(async () => {
-            try {
-                const ownersData = await app.currentUser.callFunction("getOwners");
-                owners.value = ownersData;
-            } catch (err) {
-                error.value = "Error fetching owners";
-                owners.value = [];
-            }
-        });
-
-        const handleSubmit = async () => {
-            if (!owners.value.length || !legalEntity.value || !netMineralAcres.value || !mineralOwnerRoyalty.value || !section.value || !township.value || !range.value || !titleSource.value) {
-                error.value = "Please fill in all required fields.";
-                return;
-            }
-            if (!/^\d{3}$/.test(section.value)) {
-                error.value = "Section must be exactly 3 digits.";
-                return;
-            }
-            if (!/^\d{3}$/.test(township.value)) {
-                error.value = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.";
-                return;
-            }
-            if (!/^\d{3}$/.test(range.value)) {
-                error.value = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
-                return;
-            }
-
-            try {
-                const mongo = app.currentUser.mongoClient("mongodb-atlas");
-                const collection = mongo.db("Owners_DB").collection("LandHoldings");
-                await collection.insertOne({
-                    ownerId: selectOwnerId.value,
-                    legalEntity: legalEntity.value,
-                    netMineralAcres: netMineralAcres.value,
-                    mineralOwnerRoyalty: mineralOwnerRoyalty.value,
-                    sectionName: '${section.value}-${township.value}-${range.value}',
-                    name: '${sectionName.value}-{legalEntity.value}',
-                    section: section.value,
-                    township: township.value,
-                    range: range.value,
-                    titleSource: titleSource.value
-                });
-                statusMessage.value = "Land Holding creted successfully!";
-                error.value = '';
-                props.fetchData();
-                resetForm();
-            } catch (err) {
-                console.error("Error details:", err);
-                error.value = "Error creating Land Holding. Please try again.";
-                statusMessage.value = '';
-            }
-        };
-
-        const resetForm = () => {
-            name.value = '';
-            selectOwnerId.value = '';
-            legalEntity.value = '';
-            netMineralAcres.value = 0;
-            mineralOwnerRoyalty.value = 0;
-            section.value = '';
-            township.value = '';
-            range.value = '';
-            titleSource.value = '';
-        };
-
-        return {
-            owners,
-            selectOwnerId,
-            legalEntity,
-            netMineralAcres,
-            mineralOwnerRoyalty,
-            section,
-            township,
-            range,
-            titleSource,
-            sectionName,
-            name,
-            error,
-            statusMessage,
-            handleSubmit
-        };
+onMounted(async () => {
+    try {
+        const ownersData = await app.currentUser.callFunction("getOwners");
+        owners.value = ownersData;
+    } catch (err) {
+        error.value = "Error fetching owners.";
     }
+});
+
+const handleSubmit = async () => {
+    if (!selectOwnerId.value || !legalEntity.value || !netMineralAcres.value || !mineralOwnerRoyalty.value || !section.value || !township.value || !range.value || !titleSource.value) {
+        error.value = "Please fill in all required fields.";
+        return;
+    }
+    if (!/^\d{3}$/.test(section.value)) {
+        error.value = "Section must be exactly 3 digits.";
+        return;
+    }
+    if (!/^\d{3}[NS]$/.test(township.value)) {
+        error.value = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.";
+        return;
+    }
+    if (!/^\d{3}[EW]$/.test(range.value)) {
+        error.value = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+        return;
+    }
+
+    try {
+        const mongo = app.currentUser.mongoClient("mongodb-atlas");
+        const collection = mongo.db("Owners_DB").collection("LandHoldings");
+        await collection.insertOne({
+            ownerId: selectOwnerId.value,
+            legalEntity: legalEntity.value,
+            netMineralAcres: netMineralAcres.value,
+            mineralOwnerRoyalty: mineralOwnerRoyalty.value,
+            sectionName: `${section.value}-${township.value}-${range.value}`,
+            name: `${legalEntity.value}-${section.value}`,
+            section: section.value,
+            township: township.value,
+            range: range.value,
+            titleSource: titleSource.value,
+        });
+        statusMessage.value = "Land Holding created successfully!";
+        error.value = '';
+        resetForm();
+    } catch (err) {
+        console.error("Error details:", err);
+        error.value = "Error creating Land Holding. Please try again.";
+        statusMessage.value = '';
+    }
+};
+
+const resetForm = () => {
+    selectOwnerId.value = '';
+    legalEntity.value = '';
+    netMineralAcres.value = 0;
+    mineralOwnerRoyalty.value = 0;
+    section.value = '';
+    township.value = '';
+    range.value = '';
+    titleSource.value = '';
 };
 </script>
