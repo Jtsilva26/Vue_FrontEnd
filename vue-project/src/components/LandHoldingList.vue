@@ -24,7 +24,7 @@
                     <td class="border border-gray-300 p-2">{{ holding.township }}</td>
                     <td class="border border-gray-300 p-2">{{ holding.range }}</td>
                     <td class="border border-gray-300 p-2">
-                        <button class="bg-red-500 text-white px-4 py-2 rounded" @click="handleDelete(holding.ownerId)">Delete</button>
+                        <button class="bg-red-500 text-white px-4 py-2 rounded" @click="handleDelete(holding._id)">Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -37,13 +37,19 @@ import { ref, onMounted } from 'vue';
 import app from '../realmApp'; // Adjust the import based on your structure
 
 const owners = ref({});
-const landHoldings = ref([]); // This should be passed as a prop
-const fetchData = () => {}; // Implement fetching logic to get updated landHoldings
+const landHoldings = ref([]); // This should be passed as a prop or fetched
+const ownersCollection = app.currentUser.mongoClient("mongodb-atlas").db("Owners_DB").collection("Owners");
+const landHoldingsCollection = app.currentUser.mongoClient("mongodb-atlas").db("Owners_DB").collection("LandHoldings");
 
+// Fetch Land Holdings
+const fetchLandHoldings = async () => {
+    const data = await landHoldingsCollection.find({}).toArray();
+    landHoldings.value = data;
+};
+
+// Fetch Owners
 const fetchOwners = async () => {
-    const mongo = app.currentUser.mongoClient("mongodb-atlas");
-    const collection = mongo.db("Owners_DB").collection("Owners");
-    const ownersData = await collection.find({}).toArray();
+    const ownersData = await ownersCollection.find({}).toArray();
     
     const ownersMap = {};
     ownersData.forEach(owner => {
@@ -53,22 +59,25 @@ const fetchOwners = async () => {
     owners.value = ownersMap;
 };
 
-const handleDelete = async (ownerId) => {
-    const mongo = app.currentUser.mongoClient("mongodb-atlas");
-    const landHoldingsCollection = mongo.db("Owners_DB").collection("LandHoldings");
+// Handle Deletion
+const handleDelete = async (landHoldingId) => {
+    const holdingToDelete = landHoldings.value.find(holding => holding._id === landHoldingId);
+    if (holdingToDelete) {
+        const ownerId = holdingToDelete.ownerId;
 
-    await landHoldingsCollection.deleteMany({ ownerId });
-    await ownersCollection.deleteOne({ _id: ownerId });
-    
-    fetchData();
-    fetchOwners();
+        // Delete the land holding
+        await landHoldingsCollection.deleteOne({ _id: landHoldingId });
+
+        // Refresh data
+        await fetchLandHoldings();
+        await fetchOwners();
+    }
 };
 
-onMounted(() => {
-    fetchOwners();
+// Fetch data when component is mounted
+onMounted(async () => {
+    await fetchLandHoldings();
+    await fetchOwners();
 });
 </script>
 
-<style scoped>
-/* Add any necessary styles here */
-</style>
