@@ -61,8 +61,17 @@ const props = defineProps({
 const owners = ref({});
 
 const fetchOwners = async () => {
-    const mongo = app.currentUser
-}
+    const mongo = app.currentUser.mongoClient("mongodb-atlas");
+    const collection = mongo.db("Owners_DB").collection("Owners");
+    const ownersData = await collection.find({}).toArray();
+    const ownersMap = {};
+
+
+    ownersData.forEach(owner => {
+        ownersMap[owner._id] = owner.ownerName;
+    });
+    owners.value = ownersMap;
+};
 
 const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this land holding?")) {
@@ -77,4 +86,6 @@ const handleDelete = async (id) => {
         }
     }
 };
+    
+onMounted(fetchOwners);
 </script>
