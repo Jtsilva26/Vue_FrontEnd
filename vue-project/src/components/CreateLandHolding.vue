@@ -101,6 +101,10 @@ onMounted(async () => {
     }
 });
 
+const props = defineProps({
+    fetchData: Function,
+});
+
 const handleSubmit = async () => {
     if (!selectOwnerId.value || !legalEntity.value || !netMineralAcres.value || !mineralOwnerRoyalty.value || !section.value || !township.value || !range.value || !titleSource.value) {
         error.value = "Please fill in all required fields.";
@@ -137,6 +141,7 @@ const handleSubmit = async () => {
         statusMessage.value = "Land Holding created successfully!";
         error.value = '';
         resetForm();
+        props.fetchData();
     } catch (err) {
         console.error("Error details:", err);
         error.value = "Error creating Land Holding. Please try again.";

@@ -16,39 +16,27 @@
                     <td class="py-2 px-4 border">{{ owner.entityType || 'N/A' }}</td>
                     <td class="py-2 px-4 border">{{ owner.ownerType || 'N/A' }}</td>
                     <td class="py-2 px-4 border">{{ ownerHoldingsCount[owner._id] || 0 }}</td>
+                    <td class="border px-4 py-2">
+                        <button @click="handleDelete(owner._id)"
+                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <div class="mt-4">
-            <label class="mr-2">Select Owner to Delete:</label>
-            <select class="border border-gray-300 rounded p-2" v-model="selectedOwnerId">
-                <option value="">Select Owner</option>
-                <option v-for="owner in owners" :key="owner._id" :value="owner._id">{{ owner.ownerName }}</option>
-            </select>
-        </div>
-        <button 
-            class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" 
-            @click="handleDelete" 
-            :disabled="!selectedOwnerId"
-        >
-            Delete Owner
-        </button>
     </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import app from '../realmApp';
 
 const props = defineProps({
     owners: {
         type: Array,
-        required: true,
     },
-    fetchData: {
-        type: Function,
-        required: true,
-    },
+    fetchData: Function,
 });
 
 const selectedOwnerId = ref(''); // ID of the selected owner for deletion
@@ -57,7 +45,6 @@ const ownerHoldingsCount = ref({}); // Map of Owner IDs to their holding count
 const fetchHoldingsCounts = async () => {
     const mongo = app.currentUser.mongoClient("mongodb-atlas");
     const collection = mongo.db("Owners_DB").collection("LandHoldings");
-    
     const allHoldings = await collection.find(); // Fetch all holdings
     const counts = {}; // Initialize empty count object
 
@@ -77,22 +64,17 @@ watch(() => props.owners, (newOwners) => {
     }
 });
 
-// Fetch holding counts when component mounts
-onMounted(() => {
-    if (props.owners.length > 0) {
-        fetchHoldingsCounts();
-    }
-});
-
 // Handle owner deletion
-const handleDelete = async () => {
+const handleDelete = async (ownerId) => {
+    //console.log("Deleting owner with ID: ", (selectedOwnerId.value).toHexString());
     if (confirm("Are you sure you want to delete this owner and all associated land holdings?")) {
         try {
             // Calls the "Delete" function in MongoDB Realm server
-            const result = await app.currentUser.callFunction("Delete", { ownerId: selectedOwnerId.value });
+            const result = await app.currentUser.callFunction("Delete", { ownerId });
             if (result.status === "success") {
                 alert(result.message);
-                props.fetchData(); // Refresh data
+                props.fetchData();
+
             } else {
                 alert(`Error: ${result.message}`);
             }
@@ -102,7 +84,3 @@ const handleDelete = async () => {
     }
 };
 </script>
-
-<style scoped>
-/* Add any additional scoped styles here */
-</style>
