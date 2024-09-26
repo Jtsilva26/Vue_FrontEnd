@@ -17,28 +17,62 @@
 
         <!-- Legal Entity Input -->
         <div>
-            <label class="label font-bold mb-2">Legal Entity</label>
+            <label class="label font-bold mb-2">Legal Entity:</label>
             <input type="text" v-model="legalEntity" placeholder="Legal Entity"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 
         <!-- Net Mineral Acres Input -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Net Mineral:</label>
+            <input type="number" v-model="netMineralAcres" placeholder="Net Mineral Acres"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+        </div>
 
         <!-- Mineral Owner Royalty Input -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Mineral Owner Royalty (%)</label>
+            <input type="number" v-model="mineralOwnerRoyalty" placeholder="Mineral Owner Royalty (%)"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+        </div>
 
         <!-- Section Input -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Section:</label>
+            <input type="text" v-model="section" placeholder="Section (3 characters)"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+        </div>
 
         <!-- Township Input -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Township:</label>
+            <input type="text" v-model="township" placeholder="Township (4 characters)"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+        </div>
 
         <!-- Range Input -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Range:</label>
+            <input type="text" v-model="range" placeholder="Range (4 characters)"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+        </div>
 
         <!-- Title Source Selection -->
-        <div></div>
+        <div>
+            <label class="label font-bold mb-2">Title Source:</label>
+            <select v-model="titleSource"
+                class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
+                <option value="Class A">Class A</option>
+                <option value="Class B">Class B</option>
+                <option value="Class C">Class C</option>
+                <option value="Class D">Class D</option>
+            </select>
+        </div>
+
+        <button @click="handleSubmit"
+            class="button bg-blue-500 text-white p-3 rounded hover:bg-blue-700 transition-colors duration-300">
+            Create
+        </button>
 
     </div>
 </template>
