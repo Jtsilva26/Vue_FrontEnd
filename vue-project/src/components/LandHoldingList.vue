@@ -51,14 +51,16 @@ const owners = ref({});
 const fetchOwners = async () => {
     const mongo = app.currentUser.mongoClient("mongodb-atlas");
     const collection = mongo.db("Owners_DB").collection("Owners");
-    const ownersData = await collection.find({}).toArray();
+    const ownersData = await collection.find({});
     const ownersMap = {};
 
 
     ownersData.forEach(owner => {
         ownersMap[owner._id] = owner.ownerName;
+        //console.log(ownersMap)
     });
     owners.value = ownersMap;
+
 };
 
 const handleDelete = async (id) => {
