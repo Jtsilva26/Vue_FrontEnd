@@ -95,9 +95,58 @@ export default {
 
             try {
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                const collection = mongo.db("Owners_DB").collection("LandHoldings");
+                await collection.insertOne({
+                    ownerId: selectOwnerId.value,
+                    legalEntity: legalEntity.value,
+                    netMineralAcres: netMineralAcres.value,
+                    mineralOwnerRoyalty: mineralOwnerRoyalty.value,
+                    sectionName: '${section.value}-${township.value}-${range.value}',
+                    name: '${sectionName.value}-{legalEntity.value}',
+                    section: section.value,
+                    township: township.value,
+                    range: range.value,
+                    titleSource: titleSource.value
+                });
+                statusMessage.value = "Land Holding creted successfully!";
+                error.value = '';
+                props.fetchData();
+                resetForm();
+            } catch (err) {
+                console.error("Error details:", err);
+                error.value = "Error creating Land Holding. Please try again.";
+                statusMessage.value = '';
             }
+        };
 
-        }
+        const resetForm = () => {
+            name.value = '';
+            selectOwnerId.value = '';
+            legalEntity.value = '';
+            netMineralAcres.value = 0;
+            mineralOwnerRoyalty.value = 0;
+            section.value = '';
+            township.value = '';
+            range.value = '';
+            titleSource.value = '';
+        };
+
+        return {
+            owners,
+            selectOwnerId,
+            legalEntity,
+            netMineralAcres,
+            mineralOwnerRoyalty,
+            section,
+            township,
+            range,
+            titleSource,
+            sectionName,
+            name,
+            error,
+            statusMessage,
+            handleSubmit
+        };
     }
-}
+};
 </script>
