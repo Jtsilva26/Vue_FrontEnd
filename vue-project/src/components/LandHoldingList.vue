@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr v-for="holding in landHoldings" :key="holding._id" class="hover:bg-gray-100">
-                    <td class="border px-4 py-2">{{ owners[holding.ownerId]?.ownerName }}</td>
+                    <td class="border px-4 py-2">{{ owners[holding.ownerId] }}</td>
                     <td class="border px-4 py-2">{{ holding.legalEntity }}</td>
                     <td class="border px-4 py-2">{{ holding.netMineralAcres }}</td>
                     <td class="border px-4 py-2">{{ holding.mineralOwnerRoyalty }}</td>
@@ -24,7 +24,7 @@
                     <td class="border px-4 py-2">{{ holding.township }}</td>
                     <td class="border px-4 py-2">{{ holding.range }}</td>
                     <td class="border px-4 py-2">
-                        <button @click="() => handleDelete(holding._id)"
+                        <button @click="handleDelete(holding._id)"
                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
                             Delete
                         </button>
@@ -40,22 +40,10 @@ import { ref, onMounted } from 'vue';
 import app from '../RealmApp';
 
 const props = defineProps({
-    user: {
-        type: Object,
-        required: true,
-    },
-    landHoldings: {
-        type: Array,
-        required: true,
-    },
-    setLandHoldings: {
-        type: Function,
-        required: true,
-    },
-    fetchData: {
-        type: Function,
-        required: true,
-    }
+    user: Object,
+    landHoldings: Array,
+    setLandHoldings: Function,
+    fetchData: Function
 });
 
 const owners = ref({});
@@ -73,6 +61,10 @@ const fetchOwners = async () => {
     owners.value = ownersMap;
 };
 
+onMounted(() => {
+    fetchOwners();
+});
+
 const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this land holding?")) {
         try {
@@ -86,6 +78,5 @@ const handleDelete = async (id) => {
         }
     }
 };
-    
-onMounted(fetchOwners);
+
 </script>
