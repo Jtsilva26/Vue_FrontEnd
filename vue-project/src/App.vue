@@ -1,39 +1,43 @@
 <template>
-  <nav class="bg-gray-900 fixed top-0 left-0 w-full z-50 h-20">
-    <div class="flex justify-between items-center h-full w-full max-w-screen-xl mx-auto px-4">
-      <RouterLink to="/" class="text-white text-2xl font-bold flex items-center" @click="closeMobileMenu">
-        PHOENIX CAPITAL GROUP <i class="ml-2"></i>
+  <nav class="bg-gray-900 fixed top-0 w-full z-50">
+    <div class="container mx-auto flex items-center justify-between px-4 h-20">
+      <!-- Logo -->
+      <RouterLink to="/" class="text-white text-2xl font-bold" @click="closeMobileMenu">
+        PHOENIX CAPITAL GROUP
       </RouterLink>
 
-      <div class="block md:hidden" @click="handleClick">
+      <!-- Mobile Menu Icon -->
+      <div class="md:hidden" @click="handleClick">
         <i :class="click ? 'fas fa-times text-white' : 'fas fa-bars text-white'"></i>
       </div>
 
+      <!-- Menu Items -->
       <ul
-        :class="click ? 'flex flex-col items-center absolute top-20 left-0 w-full h-screen bg-gray-900 transition-all duration-500 ease-in-out' : 'hidden md:flex md:items-center'">
-        <li class="h-20">
-          <RouterLink to="/" class="text-white py-5 px-8" @click="closeMobileMenu">Home</RouterLink>
+        :class="click ? 'flex flex-col items-center absolute top-20 left-0 w-full bg-gray-900 md:flex md:flex-row md:static md:w-auto' : 'hidden md:flex md:flex-row'">
+        <li class="md:mx-4 my-2 md:my-0">
+          <RouterLink to="/" class="text-white" @click="closeMobileMenu">Home</RouterLink>
         </li>
-        <li class="h-20">
-          <RouterLink v-if="user" to="/services" class="text-white py-5 px-8" @click="closeMobileMenu">Services
-          </RouterLink>
-          <span v-else class="text-gray-500 py-5 px-8 cursor-not-allowed">Services (Sign in to access)</span>
+        <li class="md:mx-4 my-2 md:my-0">
+          <RouterLink v-if="user" to="/services" class="text-white" @click="closeMobileMenu">Services</RouterLink>
+          <span v-else class="text-gray-500 cursor-not-allowed">Services (Sign in to access)</span>
         </li>
       </ul>
 
+      <!-- Sign In/Out Button -->
       <div v-if="buttonVisible" class="hidden md:block">
-        <button v-if="user" @click="handleSignOut"
-          class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN
-          OUT</button>
+        <button v-if="user" @click="handleSignOut" class="border border-white text-white py-2 px-6 hover:bg-white hover:text-gray-900 transition duration-300">
+          SIGN OUT
+        </button>
         <RouterLink v-else to="/signin">
-          <button
-            class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN
-            IN</button>
+          <button class="border border-white text-white py-2 px-6 hover:bg-white hover:text-gray-900 transition duration-300">
+            SIGN IN
+          </button>
         </RouterLink>
       </div>
     </div>
   </nav>
 
+  <!-- Router View -->
   <RouterView />
 </template>
 
