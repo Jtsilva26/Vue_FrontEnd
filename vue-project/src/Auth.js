@@ -6,7 +6,7 @@ export const signUp = async (email, password) => {
     try {
         //Register the new user using MongoDB Realm's email/password authentication
         await app.emailPasswordAuth.registerUser({ email, password });
-        alert("Sign-up successful! Please sign in.");
+        alert("Sign-up successful!");
     } catch (err) {
         console.error("Failed to register", err); //Log the error for debugging
         throw new Error("Sign-up failed. Please check your input and try again.");

@@ -1,8 +1,14 @@
 <template>
-    <div class="p-20">
-        <h1 class="text-3xl font-bold mb-4">Manage Owners</h1>
-        <CreateOwner :fetchData="fetchData" />
-        <OwnersList :owners="owners" :fetchData="fetchData" />
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-4 mt-28 text-center">Manage Owners</h1>
+        <div class="flex flex-wrap justify-between">
+            <div class="w-full md:w-1/3 p-2 my-44">
+                <CreateOwner :fetchData="fetchData" />
+            </div>
+            <div class="w-full md:w-8/12 p-2 my-44">
+                <OwnersList :owners="owners" :fetchData="fetchData" />
+            </div>
+        </div>
     </div>
 </template>
 

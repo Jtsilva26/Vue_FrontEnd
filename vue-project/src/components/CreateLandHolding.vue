@@ -1,7 +1,6 @@
 <template>
-    <div
-        class="create-land-holing-container flex flex-col items-start bg-gray-50 p-5 rounded-lg shadow-md w-full max-w-lg mx-auto">
-        <h2 class="text-gray-800 mb-5 text-2xl font-semibold">Create Land Holding</h2>
+    <div class="p-6 bg-yellow-200 rounded-lg shadow-md">
+        <h2 class="text-gray-800 mb-5 text-2xl font-semibold text-center">Create Land Holding</h2>
         <div v-if="error" class="text-red-500">{{ error }}</div>
         <div v-if="statusMessage" class="text-green-500">{{ statusMessage }}</div>
 

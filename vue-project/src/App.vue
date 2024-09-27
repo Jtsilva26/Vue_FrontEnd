@@ -55,14 +55,12 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import { useAuth } from './AuthContext'; // Assuming AuthContext handles authentication
+import { useAuth } from './AuthContext';
 
-// State for mobile menu and button visibility
+const { user, handleSignOut } = useAuth();
+
 const click = ref(false);
 const buttonVisible = ref(true);
-
-// Auth state
-const { user, handleSignOut } = useAuth();
 
 // Toggle mobile menu visibility
 const handleClick = () => {

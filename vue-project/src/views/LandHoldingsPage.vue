@@ -1,9 +1,15 @@
 <template>
-    <div>
-        <h2 class="text-2xl font-bold mb-4">Land Holders</h2>
-        <CreateLandHolding :fetchData="fetchData" />
-        <LandHoldingList :user="user" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
-            :fetchData="fetchData" />
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-4 mt-28 text-center">Manage Land Holders</h1>
+        <div class="flex flex-wrap justify-between">
+            <div class="w-full md:w-1/3 p-2 my-44">
+                <CreateLandHolding :fetchData="fetchData" />
+            </div>
+            <div class="w-full md:w-8/12 p-2 my-44">
+                <LandHoldingList :user="user" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
+                    :fetchData="fetchData" />
+            </div>
+        </div>
     </div>
 </template>
 

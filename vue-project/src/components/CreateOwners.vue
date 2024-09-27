@@ -1,18 +1,19 @@
 <template>
-    <div class="create-owner-container max-w-lg mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
-        <h2 class="text-2xl text-gray-800 mb-6">Create Owner</h2>
+    <div class="p-6 bg-yellow-200 rounded-lg shadow-md">
+        <h2 class="text-2xl text-gray-800 mb-6 text-center">Create Owner</h2>
         <div v-if="error" class="text-red-500 mb-4">{{ error }}</div>
         <div v-if="statusMessage" class="text-green-500 mb-4">{{ statusMessage }}</div>
 
         <div>
             <label class="block mb-2 font-semibold">Name:</label>
-            <input class="input w-full p-2 border border-gray-300 rounded focus:border-blue-500" type="text"
+            <input class="input w-full p-2 mb-2 border border-gray-300 rounded focus:border-blue-500" type="text"
                 placeholder="Owner Name" v-model="ownerName" />
         </div>
 
         <div>
             <label class="block mb-2 font-semibold">Entity Type:</label>
-            <select class="select w-full p-2 border border-gray-300 rounded focus:border-blue-500" v-model="entityType">
+            <select class="select w-full p-2 mb-2 border border-gray-300 rounded focus:border-blue-500"
+                v-model="entityType">
                 <option value="">Select Entity Type</option>
                 <option value="Company">Company</option>
                 <option value="Individual">Individual</option>
@@ -23,7 +24,8 @@
 
         <div>
             <label class="block mb-2 font-semibold">Owner Type:</label>
-            <select class="select w-full p-2 border border-gray-300 rounded focus:border-blue-500" v-model="ownerType">
+            <select class="select w-full p-2 mb-2 border border-gray-300 rounded focus:border-blue-500"
+                v-model="ownerType">
                 <option value="">Select Owner Type</option>
                 <option value="Competitor">Competitor</option>
                 <option value="Seller">Seller</option>

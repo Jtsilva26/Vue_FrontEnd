@@ -1,15 +1,13 @@
 <template>
-    <div class="max-w-xs mx-auto p-5 rounded-lg shadow-lg bg-white">
-
-
-        <h2 class="text-center text-2xl font-semibold text-white mb-6">{{ isSignUp ? "Sign Up" : "Sign In" }}
+    <div class="max-w-xs mx-auto my-60  p-5 rounded-lg shadow-lg bg-slate-100">
+        <h2 class="text-center text-2xl font-semibold text-black mb-6">{{ isSignUp ? "Sign Up" : "Sign In" }}
         </h2>
         <p v-if="message" class="text-green-500 text-center mb-4">{{ message }}</p>
         <p v-if="error" class="text-red-500 text-center mb-4">{{ error }}</p>
 
         <form @submit.prevent="handleSubmit" class="flex flex-col">
             <input type="email" placeholder="Email" v-model="email" required
-                class="mb-4 p-2 border-gray-300 rounded focus:border-blue-500 focus:outline-none" />
+                class="mb-4 p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none" />
             <input type="password" placeholder="Password" v-model="password" required
                 class="mb-4 p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none" />
             <button type="submit"
@@ -44,7 +42,6 @@ const handleSubmit = async () => {
 
         router.push('/');
 
-        window.location.reload();
     } catch (err) {
         console.error('Authentication failed', err);
     }

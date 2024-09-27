@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <h2 class="text-2xl font-bold mb-4">Land Holdings</h2>
-        <table class="min-w-full table-auto border-collapse">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="border px-4 py-2 text-left">Owner Name</th>
-                    <th class="border px-4 py-2 text-left">Legal Entity</th>
-                    <th class="border px-4 py-2 text-left">Net Mineral Acres</th>
-                    <th class="border px-4 py-2 text-left">Mineral Owner Royalty (%)</th>
-                    <th class="border px-4 py-2 text-left">Section</th>
-                    <th class="border px-4 py-2 text-left">Township</th>
-                    <th class="border px-4 py-2 text-left">Range</th>
-                    <th class="border px-4 py-2 text-left">Actions</th>
+    <div class="p-6 bg-sky-950 rounded-lg shadow-md">
+        <h2 class="text-2xl text-white mb-6 text-center">Land Holdings</h2>
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border px-4 py-2">Owner Name</th>
+                    <th class="border px-4 py-2">Legal Entity</th>
+                    <th class="border px-4 py-2">Net Mineral Acres</th>
+                    <th class="border px-4 py-2">Mineral Owner Royalty (%)</th>
+                    <th class="border px-4 py-2">Section</th>
+                    <th class="border px-4 py-2">Township</th>
+                    <th class="border px-4 py-2">Range</th>
+                    <th class="border px-4 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
