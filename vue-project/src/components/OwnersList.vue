@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import app from '../realmApp';
+import app from '../RealmApp';
 
 const props = defineProps({
     owners: {

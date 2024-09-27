@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import app from '../realmApp';
+import app from '../RealmApp';
 
 const props = defineProps({
     fetchData: Function,
