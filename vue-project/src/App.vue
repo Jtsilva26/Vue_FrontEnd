@@ -1,6 +1,6 @@
 <template>
-  <nav class="bg-gray-900 fixed top-0 w-full z-50">
-    <div class="container mx-auto flex items-center justify-between px-4 h-20">
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <!-- Logo -->
       <RouterLink to="/" class="text-white text-2xl font-bold" @click="closeMobileMenu">
         PHOENIX CAPITAL GROUP
