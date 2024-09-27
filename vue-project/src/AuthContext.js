@@ -21,7 +21,7 @@ export function useAuth() {
     const handleSignIn = async (email, password) => {
         try {
             state.user = await signIn(email, password);
-            state.message = "Logged in successfully!";
+            state.message = msg;
             state.error = null;
         } catch (err) {
             state.error = err.message;

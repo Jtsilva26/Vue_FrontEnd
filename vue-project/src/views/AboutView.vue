@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <div class="max-w-4xl mx-auto my-56 p-6 bg-slate-300 rounded-lg shadow-lg">
     <h1 class="text-3xl font-semibold text-gray-800 mb-4 text-center">About Us</h1>
     <p class="text-gray-700 mb-4">
       Welcome to our company! We are a newly established firm dedicated to revolutionizing land holding investments.
@@ -21,7 +21,8 @@
       every step of the way. Join us today, and let's embark on this exciting journey together!
     </p>
     <p class="text-center mt-6">
-      <RouterLink to="/signin" class="text-white bg-blue-600 hover:bg-blue-700 font-semibold rounded-lg px-4 py-2 transition duration-300">
+      <RouterLink to="/signin"
+        class="text-white bg-blue-600 hover:bg-blue-700 font-semibold rounded-lg px-4 py-2 transition duration-300">
         Join Us Now
       </RouterLink>
     </p>
