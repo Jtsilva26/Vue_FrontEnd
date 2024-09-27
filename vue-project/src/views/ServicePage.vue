@@ -13,8 +13,6 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'ServicePage'
-}
+<script setup>
+
 </script>
