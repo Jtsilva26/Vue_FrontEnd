@@ -9,20 +9,26 @@
         <i :class="click ? 'fas fa-times text-white' : 'fas fa-bars text-white'"></i>
       </div>
 
-      <ul :class="click ? 'flex flex-col items-center absolute top-20 left-0 w-full h-screen bg-gray-900 transition-all duration-500 ease-in-out' : 'hidden md:flex md:items-center'">
+      <ul
+        :class="click ? 'flex flex-col items-center absolute top-20 left-0 w-full h-screen bg-gray-900 transition-all duration-500 ease-in-out' : 'hidden md:flex md:items-center'">
         <li class="h-20">
           <RouterLink to="/" class="text-white py-5 px-8" @click="closeMobileMenu">Home</RouterLink>
         </li>
         <li class="h-20">
-          <RouterLink v-if="user" to="/services" class="text-white py-5 px-8" @click="closeMobileMenu">Services</RouterLink>
+          <RouterLink v-if="user" to="/services" class="text-white py-5 px-8" @click="closeMobileMenu">Services
+          </RouterLink>
           <span v-else class="text-gray-500 py-5 px-8 cursor-not-allowed">Services (Sign in to access)</span>
         </li>
       </ul>
 
       <div v-if="buttonVisible" class="hidden md:block">
-        <button v-if="user" @click="handleSignOut" class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN OUT</button>
+        <button v-if="user" @click="handleSignOut"
+          class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN
+          OUT</button>
         <RouterLink v-else to="/signin">
-          <button class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN IN</button>
+          <button
+            class="border border-white text-white py-2 px-6 hover:bg-white hover:text-black transition duration-300">SIGN
+            IN</button>
         </RouterLink>
       </div>
     </div>
@@ -69,111 +75,3 @@ onMounted(() => {
 });
 
 </script>
-
-<style scoped>
-.navbar {
-  background: #333;
-  height: 80px;
-  display: flex;
-  justify-content: normal;
-  align-items: normal;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  height: 80px;
-  width: 100%;
-  max-width: 1500px;
-}
-
-
-body {
-  padding-top: 80px;
-}
-
-.navbar-logo {
-  color: #fff;
-  cursor: pointer;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.menu-icon {
-  display: none;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  text-align: center;
-}
-
-.nav-item {
-  height: 80px;
-}
-
-.nav-links {
-  color: #fff;
-  text-decoration: none;
-  padding: 1rem 2rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.nav-links.disabled {
-  color: gray;
-  cursor: not-allowed;
-}
-
-/* Button styling */
-.btn--outline {
-  border: 1px solid #fff;
-  background: none;
-  color: #fff;
-  padding: 10px 22px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Mobile menu styles */
-@media screen and (max-width: 960px) {
-  .menu-icon {
-    display: block;
-    cursor: pointer;
-    color: #fff;
-  }
-
-  .nav-menu {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 80px;
-    left: -100%;
-    width: 100%;
-    height: 90vh;
-    background: #333;
-    transition: all 0.5s ease;
-  }
-
-  .nav-menu.active {
-    left: 0;
-    transition: all 0.5s ease;
-  }
-
-  .nav-links {
-    text-align: center;
-    padding: 2rem;
-    width: 100%;
-    display: table;
-  }
-}
-</style>
