@@ -1,6 +1,6 @@
 <template>
     <div class="relative w-screen h-screen flex flex-col justify-center items-center text-center">
-        <video src="../../videos/mountain1920.mp4" autoplay loop muted
+        <video src="../../public/videos/mountain1920.mp4" autoplay loop muted
             class="absolute inset-0 w-full h-full object-cover z-[-1]"></video>
         <div class="absolute inset-0 bg-black bg-opacity-20 z-[-1]"></div>
         <h1 class="text-white text-7xl md:text-5xl sm:text-3xl -mt-20 font-bold">
