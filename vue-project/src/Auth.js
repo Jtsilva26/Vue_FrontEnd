@@ -1,4 +1,4 @@
-import app from "./realmApp";
+import app from './RealmApp';
 import { Credentials } from "realm-web"; //Helper object to manage user credentials
 
 // Sign up a new user with email and password

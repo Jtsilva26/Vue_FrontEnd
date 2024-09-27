@@ -1,5 +1,5 @@
 import { reactive, toRefs, onMounted } from 'vue';
-import app from './realmApp';
+import app from './RealmApp';
 import { signIn, signOut, signUp as registerUser } from './Auth'; // Importing signUp as registerUser for clarity
 
 //AuthProvider component that wraps around the app to provide authentication context
