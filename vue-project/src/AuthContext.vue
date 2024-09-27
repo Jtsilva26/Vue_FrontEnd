@@ -2,12 +2,8 @@
     <slot></slot> <!-- Renders child components -->
 </template>
 
-<script>
+<script setup>
+
 import { useAuth } from './AuthConext';
 
-export default {
-    setup() {
-        useAuth();
-    },
-};
 </script>

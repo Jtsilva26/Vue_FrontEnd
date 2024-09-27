@@ -1,3 +1,37 @@
+<template>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <RouterLink to="/" class="navbar-logo" @click="closeMobileMenu">
+        PHOENIX CAPITAL GROUP <i class="navbar-logo-icon"></i>
+      </RouterLink>
+
+      <div class="menu-icon" @click="handleClick">
+        <i :class="click ? 'fas fa-times' : 'fas fa-bars'"></i>
+      </div>
+
+      <ul :class="click ? 'nav-menu active' : 'nav-menu'">
+        <li class="nav-item">
+          <RouterLink to="/" class="nav-links" @click="closeMobileMenu">Home</RouterLink>
+        </li>
+
+        <li class="nav-item">
+          <RouterLink v-if="user" to="/services" class="nav-links" @click="closeMobileMenu">Services</RouterLink>
+          <span v-else class="nav-links disabled" @click="closeMobileMenu">Services (Sign in to access)</span>
+        </li>
+      </ul>
+
+      <div v-if="buttonVisible">
+        <button v-if="user" @click="handleSignOut" class="btn btn--outline">SIGN OUT</button>
+        <RouterLink v-else to="/signin">
+          <button class="btn btn--outline">SIGN IN</button>
+        </RouterLink>
+      </div>
+    </div>
+  </nav>
+
+  <RouterView />
+</template>
+
 <script setup>
 import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue';
@@ -36,40 +70,6 @@ onMounted(() => {
 });
 
 </script>
-
-<template>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <RouterLink to="/" class="navbar-logo" @click="closeMobileMenu">
-        PHOENIX CAPITAL GROUP <i class="navbar-logo-icon"></i>
-      </RouterLink>
-
-      <div class="menu-icon" @click="handleClick">
-        <i :class="click ? 'fas fa-times' : 'fas fa-bars'"></i>
-      </div>
-
-      <ul :class="click ? 'nav-menu active' : 'nav-menu'">
-        <li class="nav-item">
-          <RouterLink to="/" class="nav-links" @click="closeMobileMenu">Home</RouterLink>
-        </li>
-
-        <li class="nav-item">
-          <RouterLink v-if="user" to="/services" class="nav-links" @click="closeMobileMenu">Services</RouterLink>
-          <span v-else class="nav-links disabled" @click="closeMobileMenu">Services (Sign in to access)</span>
-        </li>
-      </ul>
-
-      <div v-if="buttonVisible">
-        <button v-if="user" @click="handleSignOut" class="btn btn--outline">SIGN OUT</button>
-        <RouterLink v-else to="/signin">
-          <button class="btn btn--outline">SIGN IN</button>
-        </RouterLink>
-      </div>
-    </div>
-  </nav>
-
-  <RouterView />
-</template>
 
 <style scoped>
 .navbar {

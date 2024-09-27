@@ -1,16 +1,16 @@
 <template>
-    <div class="sign-in-container max-w-md mx-auto p-6 rounded-lg shadow-lg bg-white">
+    <div class="max-w-xs mx-auto p-5 rounded-lg shadow-lg bg-white">
         <template v-if="user">
-            <p class="text-center text-2xl font-semibold text-gray-800 mb-6">
-                You are logged in
+            <p class="text-center text-2xl font-semibold text-black mb-6">
+                You are logged in!
             </p>
             <button @click="handleSignOut"
                 class="bg-red-600 text-white font-semibold rounded py-2 transition duration-300 hover:bg-red-700 mb-4 w-full">Sign
                 Out</button>
         </template>
-        <template v-else>
 
-            <h2 class="text-center text-2xl font-semibold text-gray-800 mb-6">{{ isSignUp ? "Sign Up" : "Sign In" }}
+        <template v-else>
+            <h2 class="text-center text-2xl font-semibold text-white mb-6">{{ isSignUp ? "Sign Up" : "Sign In" }}
             </h2>
             <p v-if="message" class="text-green-500 text-center mb-4">{{ message }}</p>
             <p v-if="error" class="text-red-500 text-center mb-4">{{ error }}</p>
@@ -21,11 +21,11 @@
                 <input type="password" placeholder="Password" v-model="password" required
                     class="mb-4 p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none" />
                 <button type="submit"
-                    class="bg-blue-600 text-white font-semibold rounded py-2 transition duration-300 hover:bg-blue-700 mb-4">
+                    class="bg-blue-600 text-white font-semibold rounded py-2 transition duration-300 hover:bg-blue-700 mb-4 w-full">
                     {{ isSignUp ? "Sign Up" : "Sign In" }}</button>
             </form>
 
-            <p @click="toggleSignUp" class="text-center cursor-pointer text-blue-600 hover:underline mt-4">
+            <p @click="toggleSignUp" class="text-center cursor-pointer text-black hover:underline mt-4">
                 {{ isSignUp ? "Already have an account? Sign In" : "Don't have an account? Sign Up" }}
             </p>
         </template>
