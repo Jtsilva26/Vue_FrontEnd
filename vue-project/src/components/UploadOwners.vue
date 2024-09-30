@@ -1,22 +1,21 @@
 <template>
-  <div class="owner-page">
-    
-    <div>
-        <label for="owner-select">Select Owner:</label>
-        <select v-model="selectedOwner" id="owner-select">
-            <option v-for="owner in owners" :key="owner._id">{owner.name}</option>
+  <div class="p-6">
+    <div class="mb-4">
+        <label for="owner-select" class="block text-lg mb-2">Select Owner:</label>
+        <select v-model="selectedOwner" id="owner-select" class="w-full p-2 border rounded">
+            <option v-for="owner in owners" :key="owner._id" :value="owner">{{ owner.ownerName }}</option>
         </select>
     </div>
 
-    <input type="file" @change="handleFileUpload"/>
+    <input type="file" @change="handleFileUpload" class="mb-4 p-2 border rounded w-full"/>
 
-    <button @click="uploadFile">
+    <button @click="uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
         Upload File to Owner
     </button>
-    <div v-if="fileUrl">
-        <p>
+    <div v-if="fileUrl" class="mt-4">
+        <p class="text-green-500">
             File Uploads:
-            <a href="fileUrl" target="_blank">{{ fileUrl }}
+            <a href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}
             </a>
         </p>
     </div>
@@ -38,7 +37,7 @@ onMounted(async () => {
     const collection = mongo.db("Owners_DB").collection("Owners");
     
     try{
-        owners.value = await collection.find({}).toArray();
+        owners.value = await collection.find({});
     }catch(error){
         console.error('Error fetching owners:', error);
     }
