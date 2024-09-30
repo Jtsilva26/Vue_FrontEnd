@@ -80,7 +80,7 @@ const uploadFile = async () => {
                 // Update the owner's fileUrl
                 const updateResult = await ownersCollection.updateOne(
                     { _id: new BSON.ObjectId(selectedOwner.value.ownerId) },
-                    { $set: { fileUrl: fileUrl.value } }  // Use fileUrl.value for correct reference
+                    { $addToSet: { fileUrl: fileUrl.value } }  // Use fileUrl.value for correct reference
                 );
 
                 if (updateResult.modifiedCount === 0) {
