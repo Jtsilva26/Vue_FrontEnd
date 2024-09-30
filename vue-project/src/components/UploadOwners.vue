@@ -60,14 +60,14 @@ const uploadFile = async () => {
     const formData = new FormData();
     formData.append('file', file.value);
 
+    // Remove the Content-Type header
     const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
       method: 'POST',
       body: formData,
     });
 
-    // Use response.json() directly if you're certain the server response is JSON
     const data = await response.json();
-    
+
     if (response.ok) {
       fileUrl.value = data.fileUrl;
 
@@ -78,7 +78,7 @@ const uploadFile = async () => {
       try {
         // Update the owner's fileUrl
         const updateResult = await ownersCollection.updateOne(
-          { _id: new BSON.ObjectId(selectedOwner.value._id) }, // Correct usage of selectedOwner
+          { _id: new BSON.ObjectId(selectedOwner.value._id) },
           { $set: { fileUrl: fileUrl.value } }
         );
 
@@ -87,7 +87,7 @@ const uploadFile = async () => {
         }
 
         const fileDocument = {
-          ownerId: new BSON.ObjectId(selectedOwner.value._id), // Correct usage of selectedOwner
+          ownerId: new BSON.ObjectId(selectedOwner.value._id),
           fileUrl: fileUrl.value,
           uploadDate: new Date(),
         };
