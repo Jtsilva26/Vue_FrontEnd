@@ -20,8 +20,8 @@ import LandHoldingList from '../components/LandHoldingList.vue';
 import { useAuth } from '../AuthContext';
 import app from '../RealmApp';
 
-const { user } = useAuth();
 const landHoldings = ref([]);
+const authStore = useAuth();
 
 const fetchData = async () => {
     if (!user.value) return;
@@ -36,7 +36,12 @@ const fetchData = async () => {
 };
 
 onMounted(() => {
-    fetchData();
+    if(authStore.user.value == null){
+        router.push('/');
+    }
+    else{
+        fetchData();
+    }
 });
 
 const setLandHoldings = (newHoldings) => {

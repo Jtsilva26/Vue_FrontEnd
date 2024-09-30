@@ -13,4 +13,19 @@
 
 <script setup>
 
+import  { onMounted } from 'vue';
+import { useAuth } from '../AuthContext';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const authStore = useAuth();
+
+onMounted (() => {
+    if(authStore.user.value == null){
+        router.push('/');
+    }
+})
+
+
+
 </script>
