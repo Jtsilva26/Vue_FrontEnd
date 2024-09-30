@@ -26,6 +26,7 @@
 
 import { ref, onMounted } from 'vue';
 import app from "../RealmApp"
+import { BSON } from 'realm-web';
 
 const owners = ref([]);
 const selectedOwner = ref(null);
@@ -61,45 +62,46 @@ const uploadFile = async () => {
         const formData = new FormData();
         formData.append('file', file.value);
 
-        const response = await('https://file-upload-worker.slvjordan2626.workers.dev', {
+        const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
         });
 
-        const data = await response.json();
+        const textData = await response.text();
+        const data = await JSON.parse(textData);
         
         if(response.ok){
             fileUrl.value = data.fileUrl;
             
             const mongodb = context.services.get("mongodb-atlas");
-  const ownersCollection = mongodb.db("Owners_DB").collection("Owners");
-  const filesCollection = mongodb.db("Owners_DB").collection("File");
+            const ownersCollection = mongodb.db("Owners_DB").collection("Owners");
+            const filesCollection = mongodb.db("Owners_DB").collection("File");
 
-  try {
-    // Update the owner's fileUrl
-    const updateResult = await ownersCollection.updateOne(
-      { _id: new BSON.ObjectId(ownerId) },
-      { $set: { fileUrl } }
-    );
+            try {
+                // Update the owner's fileUrl
+                const updateResult = await ownersCollection.updateOne(
+                    { _id: new BSON.ObjectId(ownerId) },
+                    { $set: { fileUrl } }
+                );
 
-    if (updateResult.modifiedCount === 0) {
-      throw new Error("Owner not found");
-    }
+                if (updateResult.modifiedCount === 0) {
+                    throw new Error("Owner not found");
+                }
 
-    // Insert the file into the File collection
-    const fileDocument = {
-      ownerId: new BSON.ObjectId(ownerId),
-      fileUrl: fileUrl,
-      uploadDate: new Date(),
-    };
+                const fileDocument = {
+                    ownerId: new BSON.ObjectId(ownerId),
+                    fileUrl: fileUrl,
+                    uploadDate: new Date(),
+                };
 
-    await filesCollection.insertOne(fileDocument);
+                await filesCollection.insertOne(fileDocument);
 
-    return { success: true, message: "Owner updated and file uploaded successfully" };
-  } catch (error) {
-    console.error('Error processing request:', error);
-    throw new Error("Internal Server Error");
-  }
+                return { success: true, message: "Owner updated and file uploaded successfully" };
+            } catch (error) {
+                console.error('Error processing request:', error);
+                throw new Error("Internal Server Error");
+            }
+
         }else{
             throw new Error(data.message || 'Failed to upload file');
         }
