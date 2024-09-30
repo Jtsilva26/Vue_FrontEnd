@@ -80,7 +80,7 @@ const uploadFile = async () => {
       // Get MongoDB client
       const mongo = app.currentUser.mongoClient("mongodb-atlas");
       const landHoldingsCollection = mongo.db("Owners_DB").collection("LandHoldings");
-      const filesCollection = mongo.db("Owners_DB").collection("File");
+      const filesCollection = mongo.db("Owners_DB").collection("Files");
 
       try {
         // Update the Land Holding with the fileUrl
