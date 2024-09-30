@@ -83,7 +83,8 @@ const handleSubmit = async () => {
             ownerType: ownerType.value,
             address: address.value,
             totalLandHoldings: 0,
-            landHoldings: []
+            landHoldings: [],
+            fileUrl: []
         });
 
         if (result.status === "failed") {
