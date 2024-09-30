@@ -80,22 +80,31 @@ const uploadFile = async () => {
       // Get MongoDB client
       const mongo = app.currentUser.mongoClient("mongodb-atlas");
       const landHoldingsCollection = mongo.db("Owners_DB").collection("LandHoldings");
+      const ownersCollection = mongo.db("Owners_DB").collection("Owners");
       const filesCollection = mongo.db("Owners_DB").collection("Files");
 
       try {
         // Update the Land Holding with the fileUrl
         const updateResult = await landHoldingsCollection.updateOne(
           { _id: new BSON.ObjectId(selectedLandHolding.value._id) },
-          { $set: { fileUrl: fileUrl.value } }
+          { $set: { fileUrl: fileUrl.value } },
         );
+
 
         if (updateResult.modifiedCount === 0) {
           throw new Error("Land Holding not found");
         }
 
+        else{
+            await ownersCollection.updateOne(
+                {_id: new BSON.ObjectID(selectedLandHolding.ownerId) },
+                { $addToSet: { fileUrl: fileUrl.value } }
+            );
+        }
+
         // Insert the file into the File collection
         const fileDocument = {
-          ownerId: new BSON.ObjectId(selectedLandHolding.value.ownerId.value),
+          ownerId: new BSON.ObjectId(selectedLandHolding.value.ownerId),
           fileUrl: fileUrl.value,
           uploadDate: new Date(),
         };
