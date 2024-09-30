@@ -36,7 +36,7 @@ const fileUrl = ref('');
 // Fetch Land Holdings when component mounts
 onMounted(async () => {
   const mongo = app.currentUser.mongoClient("mongodb-atlas");
-  const collection = mongo.db("LandHoldings_DB").collection("LandHoldings");
+  const collection = mongo.db("Owners_DB").collection("LandHoldings");
 
   try {
     landHoldings.value = await collection.find({});
@@ -79,8 +79,8 @@ const uploadFile = async () => {
 
       // Get MongoDB client
       const mongo = app.currentUser.mongoClient("mongodb-atlas");
-      const landHoldingsCollection = mongo.db("LandHoldings_DB").collection("LandHoldings");
-      const filesCollection = mongo.db("LandHoldings_DB").collection("File");
+      const landHoldingsCollection = mongo.db("Owners_DB").collection("LandHoldings");
+      const filesCollection = mongo.db("Owners_DB").collection("File");
 
       try {
         // Update the Land Holding with the fileUrl
