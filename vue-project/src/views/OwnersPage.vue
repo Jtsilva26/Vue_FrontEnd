@@ -8,6 +8,9 @@
             <div class="w-full md:w-8/12 p-2 my-44">
                 <OwnersList :owners="owners" :fetchData="fetchData" />
             </div>
+            <div>
+                <UploadOwners />
+            </div>
         </div>
     </div>
 </template>
@@ -16,6 +19,7 @@
 import { ref, onMounted } from 'vue';
 import CreateOwner from '../components/CreateOwners.vue';
 import OwnersList from '../components/OwnersList.vue';
+import UploadOwners from '@/components/UploadOwners.vue';
 import app from '../RealmApp';
 import { useAuth } from '../AuthContext';
 import { useRouter } from 'vue-router';
