@@ -6,7 +6,7 @@
                 <CreateLandHolding :fetchData="fetchData" />
             </div>
             <div class="w-full md:w-8/12 p-2 my-44">
-                <LandHoldingList :user="user" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
+                <LandHoldingList :authStore.user.value="authStore.user.value" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
                     :fetchData="fetchData" />
             </div>
             <div>
@@ -30,14 +30,14 @@ const authStore = useAuth();
 const router = useRouter();
 
 const fetchData = async () => {
-    if (!user.value) return;
+    if (!authStore.user.value) return;
     try {
         const mongo = app.currentUser.mongoClient('mongodb-atlas');
         const collection = mongo.db('Owners_DB').collection('LandHoldings');
         const data = await collection.find({});
         landHoldings.value = data;
     } catch (error) {
-        console.error("Error fetching land holdings:", error);
+        console.error("Error fetching land holdings:", authStore.error.value);
     }
 };
 
