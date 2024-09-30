@@ -60,7 +60,7 @@ const uploadFile = async () => {
         const formData = new FormData();
         formData.append('file', file.value);
 
-        // Send the file to your Cloudflare Worker
+        // Sending file to cloudflare worker
         const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
@@ -71,7 +71,7 @@ const uploadFile = async () => {
         if (response.ok) {
             fileUrl.value = data.fileUrl;
 
-            // Get the MongoDB client
+            // Getting the mongoDB client
             const mongo = app.currentUser.mongoClient("mongodb-atlas");
             const ownersCollection = mongo.db("Owners_DB").collection("Owners");
             const filesCollection = mongo.db("Owners_DB").collection("Files");
