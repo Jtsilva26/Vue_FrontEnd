@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-        <h1 class="text-3xl font-bold mb-4 mt-28 text-center">Manage Land Holders</h1>
+        <h1 class="text-3xl font-bold mb-4 mt-28 text-center">Manage Land Holdingsß</h1>
         <div class="flex flex-wrap justify-between">
             <div class="w-full md:w-1/3 p-2 my-44">
                 <CreateLandHolding :fetchData="fetchData" />
@@ -18,10 +18,12 @@ import { ref, onMounted } from 'vue';
 import CreateLandHolding from '../components/CreateLandHolding.vue';
 import LandHoldingList from '../components/LandHoldingList.vue';
 import { useAuth } from '../AuthContext';
+import { useRouter } from 'vue-router';
 import app from '../RealmApp';
 
 const landHoldings = ref([]);
 const authStore = useAuth();
+const router = useRouter();
 
 const fetchData = async () => {
     if (!user.value) return;
