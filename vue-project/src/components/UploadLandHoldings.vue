@@ -95,7 +95,7 @@ const uploadFile = async () => {
 
         // Insert the file into the File collection
         const fileDocument = {
-          landHoldingId: new BSON.ObjectId(selectedLandHolding.value._id),
+          ownerId: new BSON.ObjectId(selectedLandHolding.value.ownerId),
           fileUrl: fileUrl.value,
           uploadDate: new Date(),
         };
