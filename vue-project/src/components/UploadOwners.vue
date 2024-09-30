@@ -67,18 +67,18 @@ const uploadFile = async () => {
         });
 
         const data = await response.json();
-
+        
         if(response.ok){
             fileUrl.value = data.fileUrl;
-
+            
             const mongo = app.currentUser.mongoClient("mongodb-atlas");
             const collection = mongo.db("Owners_DB").collection("Owners");
-
+            
             const updateResult = await collection.updateOne(
                 { _id: selectedOwner.value._id },
                 { $set: { fileUrl: fileUrl.value }}
             );
-
+            
             if(updateResult.modifiedCount > 0){
                 alert('File uploaded and owner updated successfully!');
             }else{
