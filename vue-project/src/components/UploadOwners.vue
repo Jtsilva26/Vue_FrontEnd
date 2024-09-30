@@ -61,7 +61,7 @@ const uploadFile = async () => {
         const formData = new FormData();
         formData.append('file', file.value);
 
-        const response = await('https://owner-uploads.workers.dev', {
+        const response = await('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
         });
