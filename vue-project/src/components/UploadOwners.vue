@@ -65,6 +65,10 @@ const uploadFile = async () => {
         const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
+            headers:{
+                Accept: ["/"],
+                "Content-type": "application/json; charset=UTF-8"
+            },
         });
 
         const textData = await response.text();
