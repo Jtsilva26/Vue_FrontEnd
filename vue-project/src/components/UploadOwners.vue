@@ -47,67 +47,69 @@ const handleFileUpload = (event) => {
 };
 
 const uploadFile = async () => {
-  if (!selectedOwner.value) {
-    alert('Please select an owner.');
-    return;
-  }
-  if (!file.value) {
-    alert('Please upload a file.');
-    return;
-  }
-
-  try {
-    const formData = new FormData();
-    formData.append('file', file.value);
-
-    // Remove the Content-Type header
-    const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
-      method: 'POST',
-      body: formData,
-    });
-
-        const textData = await response.text();
-        const data = await JSON.parse(textData);
-        
-        if(response.ok){
-            fileUrl.value = data.fileUrl;
-            
-            const mongodb = context.services.get("mongodb-atlas");
-            const ownersCollection = mongodb.db("Owners_DB").collection("Owners");
-            const filesCollection = mongodb.db("Owners_DB").collection("Files");
-
-      try {
-        // Update the owner's fileUrl
-        const updateResult = await ownersCollection.updateOne(
-          { _id: new BSON.ObjectId(selectedOwner.value._id) },
-          { $set: { fileUrl: fileUrl.value } }
-        );
-
-        if (updateResult.modifiedCount === 0) {
-          throw new Error("Owner not found");
-        }
-
-        const fileDocument = {
-          ownerId: new BSON.ObjectId(selectedOwner.value._id),
-          fileUrl: fileUrl.value,
-          uploadDate: new Date(),
-        };
-
-        await filesCollection.insertOne(fileDocument);
-        alert("Owner updated and file uploaded successfully");
-
-      } catch (error) {
-        console.error('Error processing request:', error);
-        alert("Internal Server Error");
-      }
-
-    } else {
-      throw new Error(data.message || 'Failed to upload file');
+    if (!selectedOwner.value) {
+        alert('Please select an owner.');
+        return;
     }
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    alert('Failed to upload file');
-  }
+    if (!file.value) {
+        alert('Please upload a file.');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('file', file.value);
+
+        // Send the file to your Cloudflare Worker
+        const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            fileUrl.value = data.fileUrl;
+
+            // Get the MongoDB client
+            const mongo = app.currentUser.mongoClient("mongodb-atlas");
+            const ownersCollection = mongo.db("Owners_DB").collection("Owners");
+            const filesCollection = mongo.db("Owners_DB").collection("Files");
+
+            try {
+                // Update the owner's fileUrl
+                const updateResult = await ownersCollection.updateOne(
+                    { _id: new BSON.ObjectId(selectedOwner.value._id) },
+                    { $set: { fileUrl: fileUrl.value } }  // Use fileUrl.value for correct reference
+                );
+
+                if (updateResult.modifiedCount === 0) {
+                    throw new Error("Owner not found");
+                }
+
+                // Insert the file into the File collection
+                const fileDocument = {
+                    ownerId: new BSON.ObjectId(selectedOwner.value._id),
+                    fileUrl: fileUrl.value,
+                    uploadDate: new Date(),
+                };
+
+                await filesCollection.insertOne(fileDocument);
+
+                alert("Owner updated and file uploaded successfully");
+
+            } catch (error) {
+                console.error('Error processing MongoDB operations:', error);
+                alert('Failed to update owner or insert file');
+            }
+
+        } else {
+            throw new Error(data.message || 'Failed to upload file');
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        alert('Failed to upload file');
+    }
 };
 </script>
 
