@@ -1,31 +1,29 @@
 <template>
   <div class="p-6">
     <div class="mb-4">
-        <label for="owner-select" class="block text-lg mb-2">Select Owner:</label>
-        <select v-model="selectedOwner" id="owner-select" class="w-full p-2 border rounded">
-            <option v-for="owner in owners" :key="owner._id" :value="owner">{{ owner.ownerName }}</option>
-        </select>
+      <label for="owner-select" class="block text-lg mb-2">Select Owner:</label>
+      <select v-model="selectedOwner" id="owner-select" class="w-full p-2 border rounded">
+        <option v-for="owner in owners" :key="owner._id" :value="owner">{{ owner.ownerName }}</option>
+      </select>
     </div>
 
     <input type="file" @change="handleFileUpload" class="mb-4 p-2 border rounded w-full"/>
 
     <button @click="uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Upload File to Owner
+      Upload File to Owner
     </button>
     <div v-if="fileUrl" class="mt-4">
-        <p class="text-green-500">
-            File Uploads:
-            <a href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}
-            </a>
-        </p>
+      <p class="text-green-500">
+        File Uploads:
+        <a :href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}</a>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-
 import { ref, onMounted } from 'vue';
-import app from "../RealmApp"
+import app from "../RealmApp";
 import { BSON } from 'realm-web';
 
 const owners = ref([]);
@@ -34,85 +32,81 @@ const file = ref(null);
 const fileUrl = ref('');
 
 onMounted(async () => {
-    const mongo = app.currentUser.mongoClient("mongodb-atlas");
-    const collection = mongo.db("Owners_DB").collection("Owners");
-    
-    try{
-        owners.value = await collection.find({});
-    }catch(error){
-        console.error('Error fetching owners:', error);
-    }
+  const mongo = app.currentUser.mongoClient("mongodb-atlas");
+  const collection = mongo.db("Owners_DB").collection("Owners");
+  
+  try {
+    owners.value = await collection.find({});
+  } catch (error) {
+    console.error('Error fetching owners:', error);
+  }
 });
 
 const handleFileUpload = (event) => {
-    file.value = event.target.files[0];
+  file.value = event.target.files[0];
 };
 
 const uploadFile = async () => {
-    if(!selectedOwner.value){
-        alert('Please select an owner.');
-        return;
-    }
-    if(!file.value){
-        alert('Please upload a file.');
-        return;
-    }
+  if (!selectedOwner.value) {
+    alert('Please select an owner.');
+    return;
+  }
+  if (!file.value) {
+    alert('Please upload a file.');
+    return;
+  }
 
-    try{
-        const formData = new FormData();
-        formData.append('file', file.value);
+  try {
+    const formData = new FormData();
+    formData.append('file', file.value);
 
-        const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
-            method: 'POST',
-            body: formData,
-            headers:{
-                Accept: ["/"],
-                "Content-type": "application/json; charset=UTF-8"
-            },
-        });
+    const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
+      method: 'POST',
+      body: formData,
+    });
 
-        const textData = await response.text();
-        const data = await JSON.parse(textData);
-        
-        if(response.ok){
-            fileUrl.value = data.fileUrl;
-            
-            const mongodb = context.services.get("mongodb-atlas");
-            const ownersCollection = mongodb.db("Owners_DB").collection("Owners");
-            const filesCollection = mongodb.db("Owners_DB").collection("File");
+    // Use response.json() directly if you're certain the server response is JSON
+    const data = await response.json();
+    
+    if (response.ok) {
+      fileUrl.value = data.fileUrl;
 
-            try {
-                // Update the owner's fileUrl
-                const updateResult = await ownersCollection.updateOne(
-                    { _id: new BSON.ObjectId(ownerId) },
-                    { $set: { fileUrl } }
-                );
+      const mongo = app.currentUser.mongoClient("mongodb-atlas");
+      const ownersCollection = mongo.db("Owners_DB").collection("Owners");
+      const filesCollection = mongo.db("Owners_DB").collection("File");
 
-                if (updateResult.modifiedCount === 0) {
-                    throw new Error("Owner not found");
-                }
+      try {
+        // Update the owner's fileUrl
+        const updateResult = await ownersCollection.updateOne(
+          { _id: new BSON.ObjectId(selectedOwner.value._id) }, // Correct usage of selectedOwner
+          { $set: { fileUrl: fileUrl.value } }
+        );
 
-                const fileDocument = {
-                    ownerId: new BSON.ObjectId(ownerId),
-                    fileUrl: fileUrl,
-                    uploadDate: new Date(),
-                };
-
-                await filesCollection.insertOne(fileDocument);
-
-                return { success: true, message: "Owner updated and file uploaded successfully" };
-            } catch (error) {
-                console.error('Error processing request:', error);
-                throw new Error("Internal Server Error");
-            }
-
-        }else{
-            throw new Error(data.message || 'Failed to upload file');
+        if (updateResult.modifiedCount === 0) {
+          throw new Error("Owner not found");
         }
-    }catch(error){
-        console.error('Error uploading file:', error);
-        alert('Failed to upload file');
-    }
-};
 
+        const fileDocument = {
+          ownerId: new BSON.ObjectId(selectedOwner.value._id), // Correct usage of selectedOwner
+          fileUrl: fileUrl.value,
+          uploadDate: new Date(),
+        };
+
+        await filesCollection.insertOne(fileDocument);
+        alert("Owner updated and file uploaded successfully");
+
+      } catch (error) {
+        console.error('Error processing request:', error);
+        alert("Internal Server Error");
+      }
+
+    } else {
+      throw new Error(data.message || 'Failed to upload file');
+    }
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    alert('Failed to upload file');
+  }
+};
 </script>
+
