@@ -79,7 +79,7 @@ const uploadFile = async () => {
             
             const mongodb = context.services.get("mongodb-atlas");
             const ownersCollection = mongodb.db("Owners_DB").collection("Owners");
-            const filesCollection = mongodb.db("Owners_DB").collection("File");
+            const filesCollection = mongodb.db("Owners_DB").collection("Files");
 
             try {
                 // Update the owner's fileUrl
