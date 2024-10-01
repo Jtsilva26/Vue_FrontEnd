@@ -95,12 +95,12 @@ const uploadFile = async () => {
           throw new Error("Land Holding not found");
         }
 
-        else{
-            await ownersCollection.updateOne(
-                {_id: new BSON.ObjectID(selectedLandHolding.ownerId) },
-                { $addToSet: { fileUrl: fileUrl.value } }
-            );
-        }
+        // Update the list of links for the owners collection
+        await ownersCollection.updateOne(
+            {_id: new BSON.ObjectID(selectedLandHolding.value.ownerId) },
+            { $addToSet: { fileUrl: fileUrl.value } }
+        );
+
 
         // Insert the file into the File collection
         const fileDocument = {
