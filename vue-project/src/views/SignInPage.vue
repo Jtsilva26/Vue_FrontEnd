@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-xs mx-auto my-60  p-5 rounded-lg shadow-lg bg-slate-100">
 
-        <div v-if="authStore.user.value" class="text-center mt-4">
+        <div v-if="authStore.state.user" class="text-center mt-4">
             <h3>Welcome!</h3>
             <button @click="authStore.handleSignOut" class="bg-red-600 text-white rounded py-2 mt-2 w-36">
                 Sign Out
@@ -12,8 +12,8 @@
 
             <h2 class="text-center text-2xl font-semibold text-black mb-6">{{ isSignUp ? "Sign Up" : "Sign In" }}
             </h2>
-            <p v-if="authStore.message.value" class="text-green-500 text-center mb-4">{{ authStore.message.value }}</p>
-            <p v-if="authStore.error.value" class="text-red-500 text-center mb-4">{{ authStore.error.value }}</p>
+            <p v-if="authStore.state.message" class="text-green-500 text-center mb-4">{{ authStore.state.message }}</p>
+            <p v-if="authStore.state.error" class="text-red-500 text-center mb-4">{{ authStore.state.error }}</p>
 
             <form @submit.prevent="handleSubmit" class="flex flex-col">
                 <input type="email" placeholder="Email" v-model="email" required
@@ -33,12 +33,11 @@
 </template>
 
 <script setup>
-import { ref} from 'vue';
-import { useAuth } from '../AuthContext';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/useAuthStore';
 
-//const { user, handleSignIn, signUp, handleSignOut, error, message } = useAuth();
-const authStore = useAuth();
+const authStore = useAuthStore();
 const email = ref('');
 const password = ref('');
 const isSignUp = ref(false);
@@ -51,7 +50,7 @@ const handleSubmit = async () => {
         } else {
             await authStore.handleSignIn(email.value, password.value);
         }
-
+        console.log(authStore.state.user);
         router.push('/');
 
     } catch (err) {

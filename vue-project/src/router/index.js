@@ -5,7 +5,7 @@ import SignInPage from '../views/SignInPage.vue'
 import ServicePage from '../views/ServicePage.vue'
 import OwnersPage from '../views/OwnersPage.vue'
 import LandHoldingsPage from '../views/LandHoldingsPage.vue'
-import { useAuth } from '../AuthContext';
+import { useAuthStore } from '../stores/useAuthStore'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -52,8 +52,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { user } = useAuth();
-  if (to.meta.requiresAuth && !user.value) {
+  const { user } = useAuthStore();
+  if (to.meta.requiresAuth && !user.this.value) {
     next({ name: 'signin' });
   } else {
     next();

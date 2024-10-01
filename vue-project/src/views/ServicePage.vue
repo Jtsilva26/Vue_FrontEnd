@@ -14,14 +14,14 @@
 <script setup>
 
 import  { onMounted } from 'vue';
-import { useAuth } from '../AuthContext';
+import { useAuthStore } from '../stores/useAuthStore';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const authStore = useAuth();
+const authStore = useAuthStore();
 
 onMounted (() => {
-    if(authStore.user.value == null){
+    if(authStore.state.user == null){
         router.push('/');
     }
 })

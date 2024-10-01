@@ -21,28 +21,28 @@ import { ref, onMounted } from 'vue';
 import CreateLandHolding from '../components/CreateLandHolding.vue';
 import LandHoldingList from '../components/LandHoldingList.vue';
 import UploadLandHoldings from '@/components/UploadLandHoldings.vue';
-import { useAuth } from '../AuthContext';
+import { useAuthStore } from '../stores/useAuthStore';
 import { useRouter } from 'vue-router';
 import app from '../RealmApp';
 
 const landHoldings = ref([]);
-const authStore = useAuth();
+const authStore = useAuthStore();
 const router = useRouter();
 
 const fetchData = async () => {
-    if (!authStore.user.value) return;
+    if (!authStore.state.user) return;
     try {
         const mongo = app.currentUser.mongoClient('mongodb-atlas');
         const collection = mongo.db('Owners_DB').collection('LandHoldings');
         const data = await collection.find({});
         landHoldings.value = data;
     } catch (error) {
-        console.error("Error fetching land holdings:", authStore.error.value);
+        console.error("Error fetching land holdings:", authStore.this.error);
     }
 };
 
 onMounted(() => {
-    if(authStore.user.value == null){
+    if(authStore.state.user == null){
         router.push('/');
     }
     else{

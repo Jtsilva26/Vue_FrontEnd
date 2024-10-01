@@ -7,7 +7,7 @@
       </RouterLink>
 
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <button v-if="authStore.user.value" @click="authStore.handleSignOut" type="button"
+        <button v-if="authStore.state.user" @click="authStore.handleSignOut" type="button"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           SIGN OUT
         </button>
@@ -36,13 +36,13 @@
             </RouterLink>
           </li>
           <li>
-            <RouterLink v-if="authStore.user.value" to="/services"
+            <RouterLink v-if="authStore.state.user" to="/services"
               class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">
               Services
             </RouterLink>
             <span v-else
               class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 cursor-not-allowed">Services
-              (Sign in to access)</span>
+              (Sign in to access) {{ authStore.state.user?.id }}</span>
           </li>
         </ul>
       </div>
@@ -54,12 +54,13 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
-import { ref, onMounted } from 'vue';
-import { useAuth } from './AuthContext';
+import { ref, onMounted, watch } from 'vue';
+import { useAuthStore } from './stores/useAuthStore';
+import app from './RealmApp';
 
 //const { authStore.user.value, authStore.handleSignOut } = useAuth();
 
-const authStore = useAuth();
+const authStore = useAuthStore();
 
 const click = ref(false);
 const buttonVisible = ref(true);
@@ -74,6 +75,15 @@ const closeMobileMenu = () => {
   click.value = false;
 };
 
+onMounted(() => {
+    const currentUser = app.currentUser;
+    if (currentUser) {
+      authStore.state.user = currentUser;
+    }
+    showButton();
+    window.addEventListener('resize', showButton);
+});
+
 // Show or hide button based on screen size
 const showButton = () => {
   if (window.innerWidth <= 960) {
@@ -83,10 +93,11 @@ const showButton = () => {
   }
 };
 
-// Add event listeners to handle window resize
-onMounted(() => {
-  showButton();
-  window.addEventListener('resize', showButton);
-});
+watch(
+  () => authStore.state.user,
+  async function () {
+    console.log(authStore.state.user)
+  }
+);
 
 </script>

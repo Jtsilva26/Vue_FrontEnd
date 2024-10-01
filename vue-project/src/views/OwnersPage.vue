@@ -21,12 +21,12 @@ import CreateOwner from '../components/CreateOwners.vue';
 import OwnersList from '../components/OwnersList.vue';
 import UploadOwners from '@/components/UploadOwners.vue';
 import app from '../RealmApp';
-import { useAuth } from '../AuthContext';
+import { useAuthStore } from '../stores/useAuthStore';
 import { useRouter } from 'vue-router';
 
 
 const owners = ref([]); // Reactive variable to hold owners
-const authStore = useAuth();
+const authStore = useAuthStore();
 const router = useRouter();
 
 const fetchData = async () => {
@@ -41,7 +41,7 @@ const fetchData = async () => {
 };
 
 onMounted(() => {
-    if(authStore.user.value == null){
+    if(authStore.state.user == null){
         router.push('/');
     }
     else{
