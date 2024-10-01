@@ -37,7 +37,7 @@ const fetchData = async () => {
         const data = await collection.find({});
         landHoldings.value = data;
     } catch (error) {
-        console.error("Error fetching land holdings:", authStore.this.error);
+        console.error("Error fetching land holdings:", authStore.state.error);
     }
 };
 
