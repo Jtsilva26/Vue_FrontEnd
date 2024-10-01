@@ -11,6 +11,7 @@
                     <th class="border px-4 py-2">Section</th>
                     <th class="border px-4 py-2">Township</th>
                     <th class="border px-4 py-2">Range</th>
+                    <th class="border px-4 py-2">Link</th>
                     <th class="border px-4 py-2">Actions</th>
                 </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td class="border px-4 py-2">{{ holding.section }}</td>
                     <td class="border px-4 py-2">{{ holding.township }}</td>
                     <td class="border px-4 py-2">{{ holding.range }}</td>
+                    <td class="border px-4 py-2 underline">{{ holding.fileUrl }}</td>
                     <td class="border px-4 py-2">
                         <button @click="handleDelete(holding._id)"
                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
