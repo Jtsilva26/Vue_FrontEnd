@@ -96,6 +96,7 @@ const uploadFile = async () => {
         }
 
         // Update the list of links for the owners collection
+        // $addToSet prevents duplicates and is similar to push function
         await ownersCollection.updateOne(
             {_id: new BSON.ObjectID(selectedLandHolding.value.ownerId) },
             { $addToSet: { fileUrl: fileUrl.value } }

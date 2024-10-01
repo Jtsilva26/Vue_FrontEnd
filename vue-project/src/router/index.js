@@ -42,6 +42,11 @@ const router = createRouter({
       path: '/land-holdings',
       name: 'land-holdings',
       component: LandHoldingsPage
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      redirect: '/'
     }
   ]
 });
