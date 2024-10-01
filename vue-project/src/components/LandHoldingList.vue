@@ -24,7 +24,12 @@
                     <td class="border px-4 py-2">{{ holding.section }}</td>
                     <td class="border px-4 py-2">{{ holding.township }}</td>
                     <td class="border px-4 py-2">{{ holding.range }}</td>
-                    <td class="border px-4 py-2 underline">{{ holding.fileUrl }}</td>
+                    <td class="border px-4 py-2">
+                        <span v-if="holding.fileUrl && holding.fileUrl.includes('/')">
+                            <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${holding.fileUrl.split('/').pop()}`" target="_blank" class="text-blue-600 hover:underline">Download File</a>
+                        </span>
+                        <span v-else>No File</span>
+                    </td>
                     <td class="border px-4 py-2">
                         <button @click="handleDelete(holding._id)"
                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
