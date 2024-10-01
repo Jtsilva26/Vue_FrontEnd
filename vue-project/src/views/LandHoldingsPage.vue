@@ -6,7 +6,7 @@
                 <CreateLandHolding :fetchData="fetchData" />
             </div>
             <div class="w-full md:w-8/12 p-2 my-44">
-                <LandHoldingList :authStore.user.value="authStore.user.value" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
+                <LandHoldingList :authStore.state.user="authStore.state.user" :landHoldings="landHoldings" :setLandHoldings="setLandHoldings"
                     :fetchData="fetchData" />
             </div>
             <div>
