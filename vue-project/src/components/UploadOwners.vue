@@ -1,22 +1,36 @@
 <template>
   <div class="p-6">
+    <!-- Owner selection -->
     <div class="mb-4">
       <label for="owner-select" class="block text-lg mb-2">Select Owner:</label>
-      <select v-model="selectedOwner" id="owner-select" class="w-full p-2 border rounded">
+      <select v-model="selectedOwner" @change="fetchOwnerFiles" id="owner-select" class="w-full p-2 border rounded">
         <option v-for="owner in owners" :key="owner._id" :value="owner">{{ owner.ownerName }}</option>
       </select>
     </div>
 
+    <!-- File upload -->
     <input type="file" @change="handleFileUpload" class="mb-4 p-2 border rounded w-full"/>
 
     <button @click="uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
       Upload File to Owner
     </button>
+
+    <!-- Show file upload URL -->
     <div v-if="fileUrl" class="mt-4">
       <p class="text-green-500">
         File Uploads:
         <a :href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}</a>
       </p>
+    </div>
+
+    <!-- Dropdown for listing all files of the selected owner -->
+    <div v-if="ownerFiles.length" class="mt-4">
+      <label for="file-select" class="block text-lg mb-2">Owner's Files:</label>
+      <select id="file-select" class="w-full p-2 border rounded">
+        <option v-for="file in ownerFiles" :key="file" :value="file">
+          {{ file }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -30,6 +44,7 @@ const owners = ref([]);
 const selectedOwner = ref(null);
 const file = ref(null);
 const fileUrl = ref('');
+const ownerFiles = ref([]);
 
 onMounted(async () => {
   const mongo = app.currentUser.mongoClient("mongodb-atlas");
@@ -46,6 +61,14 @@ const handleFileUpload = (event) => {
   file.value = event.target.files[0];
 };
 
+const fetchOwnerFiles = () => {
+  if (selectedOwner.value && selectedOwner.value.fileUrl) {
+    ownerFiles.value = selectedOwner.value.fileUrl;
+  } else {
+    ownerFiles.value = [];
+  }
+};
+
 const uploadFile = async () => {
     if (!selectedOwner.value) {
         alert('Please select an owner.');
@@ -60,7 +83,6 @@ const uploadFile = async () => {
         const formData = new FormData();
         formData.append('file', file.value);
 
-        // Sending file to cloudflare worker
         const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
@@ -71,13 +93,10 @@ const uploadFile = async () => {
         if (response.ok) {
             fileUrl.value = data.fileUrl;
 
-            // Getting the mongoDB client
             const mongo = app.currentUser.mongoClient("mongodb-atlas");
             const ownersCollection = mongo.db("Owners_DB").collection("Owners");
-            const filesCollection = mongo.db("Owners_DB").collection("Files");
 
             try {
-                // Update the owner's fileUrl
                 const updateResult = await ownersCollection.updateOne(
                     { _id: new BSON.ObjectId(selectedOwner.value._id) },
                     { $addToSet: { fileUrl: fileUrl.value } }
@@ -87,14 +106,7 @@ const uploadFile = async () => {
                     throw new Error("Owner not found");
                 }
 
-                // Insert the file into the File collection
-                const fileDocument = {
-                    ownerId: new BSON.ObjectId(selectedOwner.value._id),
-                    fileUrl: fileUrl.value,
-                    uploadDate: new Date(),
-                };
-
-                await filesCollection.insertOne(fileDocument);
+                fetchOwnerFiles();
 
                 alert("Owner updated and file uploaded successfully");
 
