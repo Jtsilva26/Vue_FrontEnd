@@ -54,7 +54,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted} from 'vue';
 import { useAuthStore } from './stores/useAuthStore';
 import app from './RealmApp';
 
@@ -92,12 +92,5 @@ const showButton = () => {
     buttonVisible.value = true;
   }
 };
-
-watch(
-  () => authStore.state.user,
-  async function () {
-    console.log(authStore.state.user)
-  }
-);
 
 </script>
