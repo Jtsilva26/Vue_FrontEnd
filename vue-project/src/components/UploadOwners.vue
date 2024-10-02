@@ -47,10 +47,15 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { useOwnerStore } from '../stores/useOwnerStore';
 
 const ownerStore = useOwnerStore();
 
-ownerStore.fetchOwners();
+
+onMounted (() => {
+  ownerStore.fetchOwners();
+  ownerStore.fetchOwnersFiles();
+});
 
 </script>

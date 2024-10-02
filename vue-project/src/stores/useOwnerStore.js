@@ -97,6 +97,7 @@ export const useOwnerStore = defineStore('ownerStore', {
         },
 
         async fetchOwners(){
+            if (!authStore.state.user) return;
             try{
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
                 const collection = mongo.db("Owners_DB").collection("Owners");
