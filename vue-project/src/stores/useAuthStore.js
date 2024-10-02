@@ -11,12 +11,6 @@ export const useAuthStore = defineStore("authStore", {
   }),
   getters: {}, // can use these like computed properties based on your state
   actions: {
-    async someFunction() {
-      try {
-      } catch (err) {
-        console.error(err);
-      }
-    },
     async handleSignIn (email, password) {
         try {
             this.state.user = await signIn(email, password);
