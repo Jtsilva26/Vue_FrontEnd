@@ -1,18 +1,21 @@
 import { defineStore } from "pinia";
 import app from '../RealmApp';
+import { BSON } from 'realm-web';
 
 export const useOwnerStore = defineStore('ownerStore', {
     state: () => ({
         owners: [],
         selectedOwner: null,
-        ownerHoldingsCount : [],
         ownerFiles: [],
+        file : null,
+        fileUrl : null,
         ownerName : null,
         entityType : null,
         ownerType : null,
         address : null,
         error : null,
         statusMessage : null,
+        ownerHoldingsCount : [],
     }),
     actions: {
 
@@ -74,6 +77,10 @@ export const useOwnerStore = defineStore('ownerStore', {
             }
         },
 
+        async handleFileUpload (event) {
+            this.file = event.target.files[0];
+        },
+
         async fetchHoldingsCounts () {
             const mongo = app.currentUser.mongoClient("mongodb-atlas");
             const collection = mongo.db("Owners_DB").collection("LandHoldings");
@@ -98,7 +105,75 @@ export const useOwnerStore = defineStore('ownerStore', {
                 console.error('Error fetching owners:', err);
             }
         },
+        
+        async fetchOwnersFiles() {
+            if(this.selectedOwner && this.selectedOwner.fileUrl){
+                this.ownerFiles = this.selectedOwner.fileUrl;
+            }else{
+                this.ownerFiles = [];
+            }
+        },
 
+        async uploadFile () {
+            if (!this.selectedOwner) {
+                alert('Please select an owner.');
+                return;
+            }
+            if (!this.file) {
+                alert('Please upload a file.');
+                return;
+            }
+        
+            try {
+                const formData = new FormData();
+                formData.append('file', this.file);
+        
+                // Sending file to cloudflare worker
+                const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
+                    method: 'POST',
+                    body: formData,
+                });
+        
+                const data = await response.json();
+        
+                if (response.ok) {
+                    this.fileUrl = data.fileUrl;
+        
+                    const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                    const ownersCollection = mongo.db("Owners_DB").collection("Owners");
+        
+                    try {
+                        // Update the owner's fileUrl array
+                        const updateResult = await ownersCollection.updateOne(
+                            { _id: new BSON.ObjectId(this.selectedOwner._id) },
+                            { $addToSet: { fileUrl: this.fileUrl } }
+                        );
+        
+                        if (updateResult.modifiedCount === 0) {
+                            throw new Error("Owner not found");
+                        }
+                        // Refresh the file list for the owner
+                        this.fetchOwnerFiles();
+        
+                        alert("Owner updated and file uploaded successfully");
+        
+                    } catch (err) {
+                        console.error('Error processing MongoDB operations:', err);
+                        alert('Failed to update owner or insert file');
+                    }
+        
+                } else {
+                    throw new Error(data.message || 'Failed to upload file');
+                }
+            } catch (err) {
+                console.error('Error uploading file:', err);
+                alert('Failed to upload file');
+            }
+        },
+        // selectedOwner(owner){
+        //     this.selectedOwner = owner;
+        //     this.fetchOwnersFiles();
+        // },
         // async fetchData (){
         //     try {
         //         const result = await app.currentUser.callFunction("getOwners");
@@ -109,17 +184,5 @@ export const useOwnerStore = defineStore('ownerStore', {
         //         console.error("Error fetching owners:", err);
         //     }
         // },
-
-        async fetchOwnersFiles(){
-            if(this.selectedOwner && this.selectedOwner.fileUrl){
-                this.ownerFiles = this.selectedOwner.fileUrl;
-            }else{
-                this.ownerFiles = [];
-            }
-        },
-        selectedOwner(owner){
-            this.selectedOwner = owner;
-            this.fetchOwnersFiles();
-        },
     },
 });
