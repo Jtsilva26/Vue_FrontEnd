@@ -18,19 +18,30 @@
     <!-- Show file upload URL -->
     <div v-if="fileUrl" class="mt-4">
       <p class="text-green-500">
-        File Uploads:
+        File Uploaded:
         <a :href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}</a>
       </p>
     </div>
 
-    <!-- Dropdown for listing all files of the selected owner -->
+    <!-- Table for listing all files of the selected owner -->
     <div v-if="ownerFiles.length" class="mt-4">
-      <label for="file-select" class="block text-lg mb-2">Owner's Files:</label>
-      <select id="file-select" class="w-full p-2 border rounded">
-        <option v-for="file in ownerFiles" :key="file" :value="file">
-          {{ file }}
-        </option>
-      </select>
+      <h3 class="text-lg font-semibold mb-2">Files for {{ selectedOwner.ownerName }}:</h3>
+      <table class="min-w-full table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 border">File URL</th>
+            <th class="px-4 py-2 border">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="file in ownerFiles" :key="file">
+            <td class="px-4 py-2 border">{{ file }}</td>
+            <td class="px-4 py-2 border">
+              <a :href="file" target="_blank" class="text-blue-600 underline">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -65,7 +76,7 @@ const fetchOwnerFiles = () => {
   if (selectedOwner.value && selectedOwner.value.fileUrl) {
     ownerFiles.value = selectedOwner.value.fileUrl;
   } else {
-    ownerFiles.value = [];
+    ownerFiles.value = []; // Clear if no files
   }
 };
 
@@ -83,6 +94,7 @@ const uploadFile = async () => {
         const formData = new FormData();
         formData.append('file', file.value);
 
+        // Sending file to cloudflare worker
         const response = await fetch('https://file-upload-worker.slvjordan2626.workers.dev', {
             method: 'POST',
             body: formData,
@@ -97,6 +109,7 @@ const uploadFile = async () => {
             const ownersCollection = mongo.db("Owners_DB").collection("Owners");
 
             try {
+                // Update the owner's fileUrl array
                 const updateResult = await ownersCollection.updateOne(
                     { _id: new BSON.ObjectId(selectedOwner.value._id) },
                     { $addToSet: { fileUrl: fileUrl.value } }
@@ -105,7 +118,7 @@ const uploadFile = async () => {
                 if (updateResult.modifiedCount === 0) {
                     throw new Error("Owner not found");
                 }
-
+                // Refresh the file list for the owner
                 fetchOwnerFiles();
 
                 alert("Owner updated and file uploaded successfully");
@@ -124,4 +137,3 @@ const uploadFile = async () => {
     }
 };
 </script>
-
