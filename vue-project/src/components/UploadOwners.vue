@@ -19,7 +19,7 @@
     <div v-if="fileUrl" class="mt-4">
       <p class="text-green-500">
         File Uploaded:
-        <a :href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl }}</a>
+        <a :href="fileUrl" target="_blank" class="underline text-blue-600">{{ fileUrl.split('/').pop() }}</a>
       </p>
     </div>
 
@@ -35,9 +35,9 @@
         </thead>
         <tbody>
           <tr v-for="file in ownerFiles" :key="file">
-            <td class="px-4 py-2 border">{{ file }}</td>
+            <td class="px-4 py-2 border">{{ file.split('/').pop() }}</td>
             <td class="px-4 py-2 border">
-              <a :href="file" target="_blank" class="text-blue-600 underline">View</a>
+              <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${file.split('/').pop()}`" target="_blank" class="text-blue-600 underline">Download</a>
             </td>
           </tr>
         </tbody>
@@ -119,7 +119,7 @@ const uploadFile = async () => {
                     throw new Error("Owner not found");
                 }
                 // Refresh the file list for the owner
-                fetchOwnerFiles();
+                await fetchOwnerFiles();
 
                 alert("Owner updated and file uploaded successfully");
 

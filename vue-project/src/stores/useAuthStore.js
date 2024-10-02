@@ -3,7 +3,10 @@ import { signIn, signOut, signUp as registerUser } from '../Auth';
 export const useAuthStore = defineStore("authStore", {
   state: () => ({
     // define global state here
-    state: { user: null, message: null, error: null},
+    state: { 
+      user: null, 
+      message: null, 
+      error: null},
 
   }),
   getters: {}, // can use these like computed properties based on your state

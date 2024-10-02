@@ -22,11 +22,13 @@ import OwnersList from '../components/OwnersList.vue';
 import UploadOwners from '@/components/UploadOwners.vue';
 import app from '../RealmApp';
 import { useAuthStore } from '../stores/useAuthStore';
+import { useOwnerStore } from '../stores/useOwnerStore';
 import { useRouter } from 'vue-router';
 
 
 const owners = ref([]); // Reactive variable to hold owners
 const authStore = useAuthStore();
+const ownerStore = useOwnerStore();
 const router = useRouter();
 
 const fetchData = async () => {
