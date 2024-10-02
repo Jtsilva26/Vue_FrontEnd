@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr v-for="holding in landHoldingsStore.landHoldings" :key="holding._id" class="hover:bg-gray-100">
-                    <td class="border px-4 py-2">{{ ownerStore.owners[holding.ownerId] }}</td>
+                    <td class="border px-4 py-2">{{ landHoldingsStore.owners[holding.ownerId] }}</td>
                     <td class="border px-4 py-2">{{ holding.legalEntity }}</td>
                     <td class="border px-4 py-2">{{ holding.netMineralAcres }}</td>
                     <td class="border px-4 py-2">{{ holding.mineralOwnerRoyalty }}</td>
@@ -45,12 +45,12 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useLandHoldingsStore } from '../stores/useLandHoldings';
-import { useOwnerStore } from "../stores/useOwnerStore";
 
 const landHoldingsStore = useLandHoldingsStore();
-const ownerStore = useOwnerStore();
+
+landHoldingsStore.fetchData();
 
 onMounted(() => {
-    fetchOwners();
+    landHoldingsStore.fetchOwners();
 })
 </script>

@@ -165,7 +165,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                     const mongo = app.currentUser.mongoClient("mongodb-atlas");
                     const collection = mongo.db("Owners_DB").collection("LandHoldings");
                     await collection.deleteOne({ _id: id });
-                    // this.setLandHoldings(this.landHoldings.filter(item => item._id != id));
+                    this.setLandHoldings(this.landHoldings.filter(item => item._id != id));
                     this.fetchData();
                 } catch (err) {
                     console.error("Error deleting land holding:", err);
@@ -173,9 +173,9 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
             }
         },
 
-        // async setLandHoldings(newHoldings) {
-        //     this.landHoldings = newHoldings;
-        // },
+        async setLandHoldings(newHoldings) {
+            this.landHoldings = newHoldings;
+        },
 
         async fetchData() {
             try {
@@ -185,6 +185,21 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 this.landHoldings = data;
             } catch (error) {
                 console.error("Error fetching land holdings:", authStore.state.error);
+            }
+        },
+
+        async fetchOwners(){
+            try{
+                const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                const collection = mongo.db("Owners_DB").collection("Owners");
+                const ownersData = await collection.find({});
+                const ownersMap = {};
+                ownersData.forEach(owner => {
+                    ownersMap[owner._id] = owner.ownerName;
+                });
+                this.owners =ownersMap
+            }catch(err){
+                console.error('Error fetching owners:', err);
             }
         },
     }

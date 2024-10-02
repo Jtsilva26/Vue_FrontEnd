@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="owner in ownerStore.owners" :key="owner._id" class="hover:bg-gray-100">{{ owner.ownerName }}
+                <tr v-for="owner in ownerStore.owners" :key="owner._id" class="hover:bg-gray-100">
                     <td class="py-2 px-4 border">{{ owner.ownerName }}</td>
                     <td class="py-2 px-4 border">{{ owner.entityType || 'N/A' }}</td>
                     <td class="py-2 px-4 border">{{ owner.ownerType || 'N/A' }}</td>

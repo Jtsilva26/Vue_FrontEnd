@@ -30,8 +30,6 @@ const router = useRouter();
 
 landHoldingsStore.fetchData();
 
-landHoldingsStore.selectedLandHolding();
-
 onMounted(() => {
     if(authStore.state.user == null){
         router.push('/');

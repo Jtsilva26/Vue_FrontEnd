@@ -95,9 +95,19 @@ export const useOwnerStore = defineStore('ownerStore', {
         
             this.ownerHoldingsCount = counts; // Update state with counts
         },
+        
+        // async fetchOwners() {
+        //     try {
+        //         const result = await app.currentUser.callFunction("getOwners");
+        //         if (result) {
+        //             this.owners = result;
+        //         }
+        //     } catch (err) {
+        //         console.error("Error fetching owners:", err);
+        //     }
+        // },
 
         async fetchOwners(){
-            if (!authStore.state.user) return;
             try{
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
                 const collection = mongo.db("Owners_DB").collection("Owners");
@@ -174,16 +184,6 @@ export const useOwnerStore = defineStore('ownerStore', {
         // selectedOwner(owner){
         //     this.selectedOwner = owner;
         //     this.fetchOwnersFiles();
-        // },
-        // async fetchData (){
-        //     try {
-        //         const result = await app.currentUser.callFunction("getOwners");
-        //         if (result) {
-        //             this.owners = result;
-        //         }
-        //     } catch (err) {
-        //         console.error("Error fetching owners:", err);
-        //     }
         // },
     },
 });
