@@ -11,6 +11,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.1.5",
+    "@vue/compiler-sfc": "^3.5.11",
     "pinia": "^2.1.7",
     "realm-web": "^2.0.1",
     "server": "^1.0.41",

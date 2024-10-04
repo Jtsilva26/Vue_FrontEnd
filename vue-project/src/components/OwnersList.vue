@@ -36,6 +36,7 @@ import { useOwnerStore } from '../stores/useOwnerStore';
 const ownerStore = useOwnerStore();
 
 ownerStore.fetchOwners();
+ownerStore.fetchHoldingsCounts();
 
 // onMounted(() =>{
 //     ownerStore.fetchOwners();
