@@ -52,7 +52,6 @@ import { useOwnerStore } from '../stores/useOwnerStore';
 
 const ownerStore = useOwnerStore();
 
-
 onMounted (() => {
   ownerStore.fetchOwners();
   ownerStore.fetchOwnersFiles();
