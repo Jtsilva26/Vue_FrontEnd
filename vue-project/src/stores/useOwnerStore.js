@@ -41,7 +41,6 @@ export const useOwnerStore = defineStore('ownerStore', {
                     ownerName: this.ownerName,
                     address: this.address
                 });
-                console.log("Inside try after existing await");
 
                 if(existingOwner){
                     this.error = "An Owner with the same Name and Address already exists.";
@@ -55,7 +54,6 @@ export const useOwnerStore = defineStore('ownerStore', {
                         address : this.address,
                         totalLandHoldings : this.totalLandHoldings
                     });
-                    console.log("Inside try else after insert await");
 
                     this.statusMessage = "Owner created successfully!";
                     this.error;
@@ -64,7 +62,6 @@ export const useOwnerStore = defineStore('ownerStore', {
                 }
 
             }catch(err){
-                console.log(err);
                 this.error = "An error occurred while creating the owner. Please try again.";
                 this.statusMessage = '';
             }
