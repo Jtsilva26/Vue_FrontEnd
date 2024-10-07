@@ -112,7 +112,6 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
                 const landHoldingsCollection = mongo.db("Owners_DB").collection("LandHoldings");
                 const ownersCollection = mongo.db("Owners_DB").collection("Owners");
-                const filesCollection = mongo.db("Owners_DB").collection("Files");
           
                 try {
                   // Update the Land Holding with the fileUrl
@@ -132,16 +131,6 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                       {_id: new BSON.ObjectID(this.selectedLandHolding.ownerId) },
                       { $addToSet: { fileUrl: this.fileUrl } }
                   );
-          
-          
-                  // Insert the file into the File collection
-                  const fileDocument = {
-                    ownerId: new BSON.ObjectId(this.selectedLandHolding.ownerId),
-                    fileUrl: this.fileUrl,
-                    uploadDate: new Date(),
-                  };
-          
-                  await filesCollection.insertOne(fileDocument);
           
                   alert("Land Holding updated and file uploaded successfully");
           

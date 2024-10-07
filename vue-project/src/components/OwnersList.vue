@@ -40,7 +40,6 @@
 
 <script setup>
 import { useOwnerStore } from '../stores/useOwnerStore';
-import CreateOwner from '../components/CreateOwners.vue';
 
 
 const ownerStore = useOwnerStore();
