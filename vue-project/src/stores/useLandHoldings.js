@@ -197,7 +197,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 ownersData.forEach(owner => {
                     ownersMap[owner._id] = owner.ownerName;
                 });
-                this.owners =ownersMap
+                this.owners = ownersMap
             }catch(err){
                 console.error('Error fetching owners:', err);
             }

@@ -32,12 +32,12 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ holding.range }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span v-if="holding.fileUrl && holding.fileUrl.includes('/')">
-                        <a :href="holding.fileUrl" target="_blank" class="text-blue-600 hover:underline">Download File</a>
+                        <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${holding.fileUrl.split('/').pop()}`" target="_blank" class="text-blue-600 hover:underline">Download File {{ holding.fileUrl.split('/').pop() }}</a>
                     </span>
                     <span v-else>No File</span>
                   </td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                    <button @click="ownerStore.handleDelete(owner._id)"
+                    <button @click="landHoldingsStore.handleDelete(holding._id)"
                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
                             Delete
                         </button>
@@ -58,6 +58,7 @@ import { useLandHoldingsStore } from '../stores/useLandHoldings';
 const landHoldingsStore = useLandHoldingsStore();
 
 landHoldingsStore.fetchData();
+
 
 onMounted(() => {
     landHoldingsStore.fetchOwners();
