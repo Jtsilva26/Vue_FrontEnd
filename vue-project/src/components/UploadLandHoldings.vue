@@ -16,7 +16,7 @@
     <div v-if="landHoldingStore.fileUrl" class="mt-4 text-white">
       <p class="text-green-500">
         File Uploads:
-        <a :href="landHoldingStore.fileUrl" target="_blank" class="underline text-blue-600">{{ landHoldingStore.fileUrl }}</a>
+        <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${landHoldingStore.fileUrl.split('/').pop()}`" target="_blank" class="underline text-blue-600">{{ landHoldingStore.fileUrl }}</a>
       </p>
     </div>
   </div>
