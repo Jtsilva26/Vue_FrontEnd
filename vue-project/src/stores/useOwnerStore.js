@@ -35,25 +35,36 @@ export const useOwnerStore = defineStore('ownerStore', {
             }
             
             try{
-                const result = await app.currentUser.callFunction("Duplicate", {
-                    ownerName : this.ownerFiles,
-                    entityType : this.entityType,
-                    ownerType : this.ownerType,
-                    address : this.address,
-                    totalLandHoldings: 0,
-                    landHoldings: [],
+                const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                const collection = mongo.db("Owners_DB").collection("Owners");
+                const existingOwner = await collection.findOne({
+                    ownerName: this.ownerName,
+                    address: this.address
                 });
-                
-                if(result.status === "failed"){
-                    this.error = result.message;
+                console.log("Inside try after existing await");
+
+                if(existingOwner){
+                    this.error = "An Owner with the same Name and Address already exists.";
                     this.statusMessage = '';
-                }else{
-                    this.statusMessage = result.message;
+                }
+                else{
+                    await collection.insertOne({
+                        ownerName : this.ownerName,
+                        entityType : this.entityType,
+                        ownerType : this.ownerType,
+                        address : this.address,
+                        totalLandHoldings : this.totalLandHoldings
+                    });
+                    console.log("Inside try else after insert await");
+
+                    this.statusMessage = "Owner created successfully!";
                     this.error;
                     this.resetForm();
                     this.fetchOwners();
                 }
+
             }catch(err){
+                console.log(err);
                 this.error = "An error occurred while creating the owner. Please try again.";
                 this.statusMessage = '';
             }

@@ -61,5 +61,7 @@ landHoldingsStore.fetchData();
 
 onMounted(() => {
     landHoldingsStore.fetchOwners();
+    landHoldingsStore.fetchData();
+
 })
 </script>
