@@ -25,18 +25,18 @@
 
     <!-- Table for listing all files of the selected owner -->
     <div v-if="ownerStore.ownerFiles.length" class="mt-4">
-      <h3 class="text-lg font-semibold mb-2">Files for {{ ownerStore.selectedOwner.ownerName }}:</h3>
+      <h3 class="text-lg font-semibold mb-2 text-white">Files for {{ ownerStore.selectedOwner.ownerName }}:</h3>
       <table class="min-w-full table-auto">
         <thead>
           <tr>
-            <th class="px-4 py-2 border">File URL</th>
-            <th class="px-4 py-2 border">Action</th>
+            <th class="px-4 py-2 border text-white">File URL</th>
+            <th class="px-4 py-2 border text-white">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="file in ownerStore.ownerFiles" :key="file">
-            <td class="px-4 py-2 border">{{ file.split('/').pop() }}</td>
-            <td class="px-4 py-2 border">
+            <td class="px-4 py-2 border text-white">{{ file.split('/').pop() }}</td>
+            <td class="px-4 py-2 border text-white">
               <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${file.split('/').pop()}`" target="_blank" class="text-blue-600 underline">Download</a>
             </td>
           </tr>

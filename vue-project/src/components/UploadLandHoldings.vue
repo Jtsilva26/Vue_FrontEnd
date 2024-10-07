@@ -2,7 +2,7 @@
   <div class="p-6">
     <div class="mb-4">
       <label for="landholding-select" class="block text-lg mb-2 text-white">Select Land Holding:</label>
-      <select v-model="landHoldingStore.selectedLandHolding" id="landholding-select" class="w-full p-2 border rounded text-white">
+      <select v-model="landHoldingStore.selectedLandHolding" id="landholding-select" class="w-full p-2 border rounded">
         <option v-for="landholding in landHoldingStore.landHoldings" :key="landholding._id" :value="landholding">{{ landholding.name }}</option>
       </select>
     </div>
@@ -13,7 +13,7 @@
       Upload File to Land Holding
     </button>
 
-    <div v-if="landHoldingStore.fileUrl" class="mt-4">
+    <div v-if="landHoldingStore.fileUrl" class="mt-4 text-white">
       <p class="text-green-500">
         File Uploads:
         <a :href="landHoldingStore.fileUrl" target="_blank" class="underline text-blue-600">{{ landHoldingStore.fileUrl }}</a>
