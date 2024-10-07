@@ -12,13 +12,7 @@
     <button @click="handlerFunctionPage" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
       Upload File to Land Holding
     </button>
-
-    <div v-if="landHoldingStore.fileUrl" class="mt-4 text-white">
-      <p class="text-green-500">
-        File Uploads:
-        <a :href="landHoldingStore.fileUrl " target="_blank" class="underline text-blue-600">{{ landHoldingStore.fileUrl }}</a>
-      </p>
-    </div>
+    
   </div>
 </template>
 

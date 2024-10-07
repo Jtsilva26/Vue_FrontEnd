@@ -172,7 +172,7 @@ export const useOwnerStore = defineStore('ownerStore', {
                             throw new Error("Owner not found");
                         }
                         // Refresh the file list for the owner
-                        this.fetchOwnerFiles();
+                        this.fetchOwnersFiles();
         
                         alert("Owner updated and file uploaded successfully");
         
