@@ -2,14 +2,14 @@
   <div class="p-6">
     <!-- Owner selection -->
     <div class="mb-4">
-      <label for="owner-select" class="block text-lg mb-2">Select Owner:</label>
+      <label for="owner-select" class="block text-lg mb-2 text-white">Select Owner:</label>
       <select v-model="ownerStore.selectedOwner" @change="ownerStore.fetchOwnersFiles" id="owner-select" class="w-full p-2 border rounded">
         <option v-for="owner in ownerStore.owners" :key="owner._id" :value="owner">{{ owner.ownerName }}</option>
       </select>
     </div>
 
     <!-- File upload -->
-    <input type="file" @change="ownerStore.handleFileUpload" class="mb-4 p-2 border rounded w-full"/>
+    <input type="file" @change="ownerStore.handleFileUpload" class="mb-4 p-2 border rounded w-full text-white"/>
 
     <button @click="ownerStore.uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
       Upload File to Owner
