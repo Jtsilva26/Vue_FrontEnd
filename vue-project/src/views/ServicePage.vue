@@ -1,5 +1,5 @@
 <template>
-    <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 bg-repeat">
+    <div class="flex h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 bg-repeat">
         <main class="relative isolate">
             
             <div class="absolute inset-x-0 top-4 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl" aria-hidden="true">
