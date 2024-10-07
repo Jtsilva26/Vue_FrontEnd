@@ -9,7 +9,7 @@
 
     <input type="file" @change="landHoldingStore.handleFileUpload" class="mb-4 p-2 border rounded w-full text-white"/>
 
-    <button @click="landHoldingStore.uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+    <button @click="handlerFunctionPage" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
       Upload File to Land Holding
     </button>
 
@@ -27,5 +27,13 @@
 import { useLandHoldingsStore } from '../stores/useLandHoldings';
 
 const landHoldingStore = useLandHoldingsStore();
+
+landHoldingStore.fetchData();
+
+async function handlerFunctionPage(){
+  await landHoldingStore.uploadFile();
+  landHoldingStore.fetchData();
+
+};
 
 </script>
