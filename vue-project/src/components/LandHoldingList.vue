@@ -32,7 +32,7 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ holding.range }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span v-if="holding.fileUrl && holding.fileUrl.includes('/')">
-                        <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${holding.fileUrl.split('/').pop()}`" target="_blank" class="text-blue-600 hover:underline">Download File</a>
+                        <a :href="holding.fileUrl" target="_blank" class="text-blue-600 hover:underline">Download File</a>
                     </span>
                     <span v-else>No File</span>
                   </td>
@@ -61,7 +61,6 @@ landHoldingsStore.fetchData();
 
 onMounted(() => {
     landHoldingsStore.fetchOwners();
-    landHoldingsStore.fetchData();
 
 })
 </script>

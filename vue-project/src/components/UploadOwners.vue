@@ -19,7 +19,7 @@
     <div v-if="ownerStore.fileUrl" class="mt-4">
       <p class="text-green-500">
         File Uploaded:
-        <a :href="ownerStore.fileUrl" target="_blank" class="underline text-blue-600">{{ ownerStore.fileUrl.split('/').pop() }}</a>
+        <a :href="ownerStore.fileUrl" target="_blank" class="underline text-blue-600">{{ ownerStore.fileUrl }}</a>
       </p>
     </div>
 
@@ -37,7 +37,7 @@
           <tr v-for="file in ownerStore.ownerFiles" :key="file">
             <td class="px-4 py-2 border text-white">{{ file.split('/').pop() }}</td>
             <td class="px-4 py-2 border text-white">
-              <a :href="`https://file-upload-worker.slvjordan2626.workers.dev/${file.split('/').pop()}`" target="_blank" class="text-blue-600 underline">Download</a>
+              <a :href="file" target="_blank" class="text-blue-600 underline">Download</a>
             </td>
           </tr>
         </tbody>
