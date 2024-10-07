@@ -40,12 +40,34 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 return;
             }
             if (!/^\d{3}$/.test(this.section)) {
-                this.error = "Section must be exactly 3 digits.";
-                return;
+                if(!/^\d{3}[NS]$/.test(this.township)){
+                    if(!/^\d{3}[EW]$/.test(this.range)){
+                        this.error = "Section must be exactly 3 digits, Township must be 4 characters: first 3 digits followed by 'N' or 'S', and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                        return;
+                    }
+                    else{
+                        this.error = "Section must be exactly 3 digits and Township must be 4 characters: first 3 digits followed by 'N' or 'S'";
+                        return;
+                    }
+                }
+                else if(!/^\d{3}[EW]$/.test(this.range)){
+                    this.error = "Section must be exactly 3 digits and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                    return;
+                }
+                else{
+                    this.error = "Section must be exactly 3 digits.";
+                    return;
+                }
             }
             if (!/^\d{3}[NS]$/.test(this.township)) {
-                this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.";
-                return;
+                if(!/^\d{3}[EW]$/.test(this.range)){
+                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S', and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                    return;
+                }
+                else{
+                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.";
+                    return;
+                }
             }
             if (!/^\d{3}[EW]$/.test(this.range)) {
                 this.error = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
