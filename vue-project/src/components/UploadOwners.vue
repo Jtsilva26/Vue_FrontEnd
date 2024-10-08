@@ -11,7 +11,7 @@
     <!-- File upload -->
     <input type="file" @change="ownerStore.handleFileUpload" class="mb-4 p-2 border rounded w-full text-white"/>
 
-    <button @click="ownerStore.uploadFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+    <button @click="uploadFileHandler" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
       Upload File to Owner
     </button>
 
@@ -52,9 +52,13 @@ import { useOwnerStore } from '../stores/useOwnerStore';
 
 const ownerStore = useOwnerStore();
 
+async function uploadFileHandler() {
+  await ownerStore.uploadFile();
+  await ownerStore.fetchOwnersFiles();
+ownerStore.fetchOwners();
 
-onMounted (() => {
-  ownerStore.fetchOwners();
-});
+};
+
+
 
 </script>
