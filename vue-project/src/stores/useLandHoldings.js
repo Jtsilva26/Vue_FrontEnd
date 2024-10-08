@@ -24,6 +24,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
     actions: {
 
         async resetForm() {
+            this.statusMessage = '';
             this.selectOwnerId = '';
             this.legalEntity = '';
             this.netMineralAcres = 0;
@@ -89,7 +90,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                     range: this.range,
                     titleSource: this.titleSource,
                 });
-                this.statusMessage = "Land Holding created successfully!";
+                alert("Land Holding created successfully!");
                 this.error = '';
                 this.resetForm();
                 this.fetchData();
