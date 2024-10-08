@@ -31,7 +31,7 @@
         <!-- Mineral Owner Royalty Input -->
         <div>
             <label class="label font-bold mb-2">Mineral Owner Royalty (%)</label>
-            <input type="number" v-model="landHoldingsStore.mineralOwnerRoyalty" placeholder="Mineral Owner Royalty (%)" max="100"
+            <input type="number" min="0" max="100" step="10" maxlength="3" v-model="landHoldingsStore.mineralOwnerRoyalty" placeholder="Mineral Owner Royalty (%)"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 

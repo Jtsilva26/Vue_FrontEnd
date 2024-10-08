@@ -43,35 +43,35 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
             if (!/^\d{3}$/.test(this.section)) {
                 if(!/^\d{3}[NS]$/.test(this.township)){
                     if(!/^\d{3}[EW]$/.test(this.range)){
-                        this.error = "Section must be exactly 3 digits, Township must be 4 characters: first 3 digits followed by 'N' or 'S', and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                        this.error = "Section must be exactly 3 digits.\n Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                         return;
                     }
                     else{
-                        this.error = "Section must be exactly 3 digits and Township must be 4 characters: first 3 digits followed by 'N' or 'S'";
+                        this.error = "Section must be exactly 3 digits.\n Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
                         return;
                     }
                 }
                 else if(!/^\d{3}[EW]$/.test(this.range)){
-                    this.error = "Section must be exactly 3 digits and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                    this.error = "Section must be exactly 3 digits.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                     return;
                 }
                 else{
-                    this.error = "Section must be exactly 3 digits.";
+                    this.error = "Section must be exactly 3 digits.\n";
                     return;
                 }
             }
             if (!/^\d{3}[NS]$/.test(this.township)) {
                 if(!/^\d{3}[EW]$/.test(this.range)){
-                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S', and Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                     return;
                 }
                 else{
-                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.";
+                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
                     return;
                 }
             }
             if (!/^\d{3}[EW]$/.test(this.range)) {
-                this.error = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.";
+                this.error = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                 return;
             }
         
