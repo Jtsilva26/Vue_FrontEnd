@@ -31,28 +31,28 @@
         <!-- Mineral Owner Royalty Input -->
         <div>
             <label class="label font-bold mb-2">Mineral Owner Royalty (%)</label>
-            <input type="number" v-model="landHoldingsStore.mineralOwnerRoyalty" placeholder="Mineral Owner Royalty (%)"
+            <input type="number" v-model="landHoldingsStore.mineralOwnerRoyalty" placeholder="Mineral Owner Royalty (%)" max="100"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 
         <!-- Section Input -->
         <div>
             <label class="label font-bold mb-2">Section:</label>
-            <input type="text" v-model="landHoldingsStore.section" placeholder="Section (3 characters)"
+            <input type="text" v-model="landHoldingsStore.section" placeholder="Section (3 characters)" maxlength="3"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 
         <!-- Township Input -->
         <div>
             <label class="label font-bold mb-2">Township:</label>
-            <input type="text" v-model="landHoldingsStore.township" placeholder="Township (4 characters)"
+            <input type="text" v-model="landHoldingsStore.township" placeholder="Township (3 characters + N/S)" maxlength="4"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 
         <!-- Range Input -->
         <div>
             <label class="label font-bold mb-2">Range:</label>
-            <input type="text" v-model="landHoldingsStore.range" placeholder="Range (4 characters)"
+            <input type="text" v-model="landHoldingsStore.range" placeholder="Range (3 characters + W/E)" maxlength="4"
                 class="input w-full p-2 mb-4 border rounded focus:border-blue-500 focus:outline-none">
         </div>
 
