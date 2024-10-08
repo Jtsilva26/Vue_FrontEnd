@@ -11,6 +11,7 @@
                   <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Owner Name</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Entity Type</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Owner Type</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Land Holdings</th>
                   <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
                     <span class="sr-only">Delete</span>
@@ -22,6 +23,7 @@
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{{ owner.ownerName }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ owner.entityType }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ owner.ownerType }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ owner.address }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ ownerStore.ownerHoldingsCount[owner._id] || 0 }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                     <button @click="ownerStore.handleDelete(owner._id)"
