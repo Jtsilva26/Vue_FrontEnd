@@ -84,7 +84,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                     netMineralAcres: this.netMineralAcres,
                     mineralOwnerRoyalty: this.mineralOwnerRoyalty,
                     sectionName: `${this.section}-${this.township}-${this.range}`,
-                    name: `${this.legalEntity}-${this.section}`,
+                    name: `${this.section}-${this.legalEntity}`,
                     section: this.section,
                     township: this.township,
                     range: this.range,
