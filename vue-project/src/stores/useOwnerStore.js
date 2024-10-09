@@ -67,6 +67,35 @@ export const useOwnerStore = defineStore('ownerStore', {
             }
         },
 
+        async updateOwner(ownerId, updatedData){
+            try{
+                const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                const collection = mongo.db("Owners_DB").collection("Owners");
+
+                const existingOwner = await collection.findOne({
+                    ownerName: updatedData.ownerName,
+                    address: updatedData.address
+                });
+
+                if(existingOwner){
+                    alert("An Owner with the same Name and Address already exists.");
+                }
+                else{
+                    await collection.updateOne(
+                        { _id: new BSON.ObjectId(ownerId) },
+                        { $set: updatedData }
+                    );
+
+                    alert("Owner updated successfully!");
+                    this.error = null;
+                    this.fetchOwners();
+                }
+            }catch(err){
+                this.error = "Error updating owner. Please try again."
+                console.error(err);
+            }
+        },
+
         async handleDelete (ownerId) {
 
             if (confirm("Are you sure you want to delete this owner and all associated land holdings?")) {
