@@ -108,7 +108,21 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
 
                 await collection.updateOne(
                     { _id: new BSON.ObjectId(holdingId) },
-                    { $set: updatedData }
+                    { 
+                        $set:
+                        { 
+                            ownerId: updatedData.ownerId,
+                            legalEntity: updatedData.legalEntity,
+                            netMineralAcres: updatedData.netMineralAcres,
+                            mineralOwnerRoyalty: updatedData.mineralOwnerRoyalty,
+                            sectionName: `${updatedData.section}-${updatedData.township}-${updatedData.range}`,
+                            name: `${updatedData.section}-${updatedData.legalEntity}`,
+                            section: updatedData.section,
+                            township: updatedData.township,
+                            range: updatedData.range,
+                            titleSource: updatedData.titleSource,
+                        } 
+                    }
                 );
                 alert("Land Holding updated successfully!");
                 this.error = null;

@@ -33,10 +33,10 @@
                       <input v-model="editedLandHolding.legalEntity" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.netMineralAcres" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
+                      <input v-model="editedLandHolding.netMineralAcres" class="border border-gray-300 rounded px-2 py-1 w-full" type="number"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.mineralOwnerRoyalty" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
+                      <input v-model="editedLandHolding.mineralOwnerRoyalty" class="border border-gray-300 rounded px-2 py-1 w-full" type="number"/>
                     </td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ holding.sectionName }}</td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
