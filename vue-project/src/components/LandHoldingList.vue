@@ -103,7 +103,7 @@
   </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useLandHoldingsStore } from '../stores/useLandHoldings';
 import { useOwnerStore } from '../stores/useOwnerStore';
 
@@ -112,8 +112,8 @@ const ownerStore = useOwnerStore();
 const editMode = ref({});
 const editedLandHolding = ref({});
 
-landHoldingsStore.fetchOwners();
 landHoldingsStore.fetchData();
+landHoldingsStore.fetchOwners();
 
 const enterEditMode = (holding) => {
   editMode.value[holding._id] = true;
@@ -132,11 +132,4 @@ const saveEdit = async (holdingId) => {
   landHoldingsStore.fetchOwners();
   landHoldingsStore.fetchData();
 };
-
-onMounted(() => {
-    landHoldingsStore.fetchOwners();
-    landHoldingsStore.fetchData();
-
-
-});
 </script>

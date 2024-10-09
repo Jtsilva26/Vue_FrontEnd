@@ -106,27 +106,10 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
                 const collection = mongo.db("Owners_DB").collection("LandHoldings");
 
-                if(updatedData.section == null && updatedData.legalEntity == null){
-                    updatedData.name = `${this.section}-${this.legalEntity}`;
-                }
-                else{
-                    updatedData.name = `${updatedData.section}-${updatedData.legalEntity}`;
-                }
-
-                if(updatedData.township == null && updatedData.range == null && updatedData.legalEntity == null){
-                    updatedData.sectionName = `${this.section}-${this.township}-${this.range}`;
-                }
-                else{
-                    updatedData.sectionName = `${updatedData.section}-${updatedData.township}-${updatedData.range}`;
-                }
-                
-
                 await collection.updateOne(
                     { _id: new BSON.ObjectId(holdingId) },
                     { $set: updatedData }
                 );
-                
-
                 alert("Land Holding updated successfully!");
                 this.error = null;
                 this.fetchOwners();
