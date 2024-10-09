@@ -91,7 +91,7 @@ export const useOwnerStore = defineStore('ownerStore', {
                     this.fetchOwners();
                 }
             }catch(err){
-                this.error = "Error updating owner. Please try again."
+                alert("Error updating owner. Please try again.");
                 console.error(err);
             }
         },

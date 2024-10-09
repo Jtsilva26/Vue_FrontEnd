@@ -43,16 +43,16 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
             if (!/^\d{3}$/.test(this.section)) {
                 if(!/^\d{3}[NS]$/.test(this.township)){
                     if(!/^\d{3}[EW]$/.test(this.range)){
-                        this.error = "Section must be exactly 3 digits.\n Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                        this.error = "Section must be exactly 3 digits.\n" + "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n" +"Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                         return;
                     }
                     else{
-                        this.error = "Section must be exactly 3 digits.\n Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
+                        this.error = "Section must be exactly 3 digits.\n" + "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
                         return;
                     }
                 }
                 else if(!/^\d{3}[EW]$/.test(this.range)){
-                    this.error = "Section must be exactly 3 digits.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                    this.error = "Section must be exactly 3 digits.\n" + "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                     return;
                 }
                 else{
@@ -62,7 +62,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
             }
             if (!/^\d{3}[NS]$/.test(this.township)) {
                 if(!/^\d{3}[EW]$/.test(this.range)){
-                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                    this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n" + "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
                     return;
                 }
                 else{
@@ -98,6 +98,42 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 console.error("Error details:", err);
                 this.error = "Error creating Land Holding. Please try again.";
                 this.statusMessage = '';
+            }
+        },
+
+        async updateLandHolding(holdingId, updatedData){
+            try{
+                const mongo = app.currentUser.mongoClient("mongodb-atlas");
+                const collection = mongo.db("Owners_DB").collection("LandHoldings");
+
+                if(updatedData.section == null && updatedData.legalEntity == null){
+                    updatedData.name = `${this.section}-${this.legalEntity}`;
+                }
+                else{
+                    updatedData.name = `${updatedData.section}-${updatedData.legalEntity}`;
+                }
+
+                if(updatedData.township == null && updatedData.range == null && updatedData.legalEntity == null){
+                    updatedData.sectionName = `${this.section}-${this.township}-${this.range}`;
+                }
+                else{
+                    updatedData.sectionName = `${updatedData.section}-${updatedData.township}-${updatedData.range}`;
+                }
+                
+
+                await collection.updateOne(
+                    { _id: new BSON.ObjectId(holdingId) },
+                    { $set: updatedData }
+                );
+                
+
+                alert("Land Holding updated successfully!");
+                this.error = null;
+                this.fetchOwners();
+                this.fetchData();
+            }catch(err){
+                alert("Error updating land holding. Please try again.");
+                console.error(err);
             }
         },
 

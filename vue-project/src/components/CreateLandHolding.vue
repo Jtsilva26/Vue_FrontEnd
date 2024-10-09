@@ -1,7 +1,9 @@
 <template>
     <div class="p-6 bg-yellow-200 rounded-lg shadow-md">
         <h2 class="text-gray-800 mb-5 text-2xl font-semibold text-center">Create Land Holding</h2>
-        <div v-if="landHoldingsStore.error" class="text-red-500">{{ landHoldingsStore.error }}</div>
+        <div v-if="landHoldingsStore.error" class="text-red-500 whitespace-pre-wrap">
+            {{ landHoldingsStore.error }}
+        </div>
         <div v-if="landHoldingsStore.statusMessage" class="text-green-500">{{ landHoldingsStore.statusMessage }}</div>
 
         <!-- Owner Selection Box -->
