@@ -74,7 +74,8 @@ export const useOwnerStore = defineStore('ownerStore', {
 
                 const existingOwner = await collection.findOne({
                     ownerName: updatedData.ownerName,
-                    address: updatedData.address
+                    address: updatedData.address,
+                    _id: { $ne: updatedData._id }
                 });
 
                 if(existingOwner){
