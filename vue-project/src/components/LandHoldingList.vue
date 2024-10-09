@@ -117,7 +117,7 @@ landHoldingsStore.fetchOwners();
 
 const enterEditMode = (holding) => {
   editMode.value[holding._id] = true;
-  editedLandHolding.value = {};
+  editedLandHolding.value = {...holding};
 };
 
 const cancelEdit = (holdingId) => {

@@ -88,7 +88,7 @@ ownerStore.fetchHoldingsCounts();
 
 const enterEditMode = (owner) => {
   editMode.value[owner._id] = true;
-  editedOwner.value = {};
+  editedOwner.value = {...owner};
 };
 
 const cancelEdit = (ownerId) => {

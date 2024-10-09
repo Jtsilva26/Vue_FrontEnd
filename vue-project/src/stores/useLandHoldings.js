@@ -106,24 +106,51 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 const mongo = app.currentUser.mongoClient("mongodb-atlas");
                 const collection = mongo.db("Owners_DB").collection("LandHoldings");
 
+                if (!/^\d{3}$/.test(updatedData.section)) {
+                    if(!/^\d{3}[NS]$/.test(updatedData.township)){
+                        if(!/^\d{3}[EW]$/.test(updatedData.range)){
+                            this.error = "Section must be exactly 3 digits.\n" + "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n" +"Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                            return;
+                        }
+                        else{
+                            this.error = "Section must be exactly 3 digits.\n" + "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
+                            return;
+                        }
+                    }
+                    else if(!/^\d{3}[EW]$/.test(updatedData.range)){
+                        this.error = "Section must be exactly 3 digits.\n" + "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                        return;
+                    }
+                    else{
+                        this.error = "Section must be exactly 3 digits.\n";
+                        return;
+                    }
+                }
+                if (!/^\d{3}[NS]$/.test(updatedData.township)) {
+                    if(!/^\d{3}[EW]$/.test(updatedData.range)){
+                        this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n" + "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                        return;
+                    }
+                    else{
+                        this.error = "Township must be 4 characters: first 3 digits followed by 'N' or 'S'.\n";
+                        return;
+                    }
+                }
+                if (!/^\d{3}[EW]$/.test(updatedData.range)) {
+                    this.error = "Range must be 4 characters: first 3 digits followed by 'E' or 'W'.\n";
+                    return;
+                }
+
+                updatedData.sectionName = `${updatedData.section}-${updatedData.township}-${updatedData.range}`;
+                updatedData.name = `${updatedData.section}-${updatedData.legalEntity}`;
+
+
                 await collection.updateOne(
                     { _id: new BSON.ObjectId(holdingId) },
-                    { 
-                        $set:
-                        { 
-                            ownerId: updatedData.ownerId,
-                            legalEntity: updatedData.legalEntity,
-                            netMineralAcres: updatedData.netMineralAcres,
-                            mineralOwnerRoyalty: updatedData.mineralOwnerRoyalty,
-                            sectionName: `${updatedData.section}-${updatedData.township}-${updatedData.range}`,
-                            name: `${updatedData.section}-${updatedData.legalEntity}`,
-                            section: updatedData.section,
-                            township: updatedData.township,
-                            range: updatedData.range,
-                            titleSource: updatedData.titleSource,
-                        } 
-                    }
+                    { $set: updatedData },
+                    
                 );
+
                 alert("Land Holding updated successfully!");
                 this.error = null;
                 this.fetchOwners();
