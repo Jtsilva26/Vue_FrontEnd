@@ -33,20 +33,20 @@
                       <input v-model="editedLandHolding.legalEntity" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.netMineralAcres" class="border border-gray-300 rounded px-2 py-1 w-full" type="number"/>
+                      <input v-model="editedLandHolding.netMineralAcres" class="border border-gray-300 rounded px-2 py-1 w-full" type="number" maxlength="3"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.mineralOwnerRoyalty" class="border border-gray-300 rounded px-2 py-1 w-full" type="number"/>
+                      <input v-model="editedLandHolding.mineralOwnerRoyalty" class="border border-gray-300 rounded px-2 py-1 w-full" type="number" min="0" max="100" step="10" maxlength="3"/>
                     </td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ holding.sectionName }}</td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.section" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
+                      <input v-model="editedLandHolding.section" class="border border-gray-300 rounded px-2 py-1 w-full" type="text" maxlength="3"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.township" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
+                      <input v-model="editedLandHolding.township" class="border border-gray-300 rounded px-2 py-1 w-full" type="text" maxlength="4"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
-                      <input v-model="editedLandHolding.range" class="border border-gray-300 rounded px-2 py-1 w-full" type="text"/>
+                      <input v-model="editedLandHolding.range" class="border border-gray-300 rounded px-2 py-1 w-full" type="text" maxlength="4"/>
                     </td>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 max-w-8">
                       <select class="select w-full p-2 border border-gray-300 rounded focus:border-blue-500"
