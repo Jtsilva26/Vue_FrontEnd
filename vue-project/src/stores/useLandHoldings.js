@@ -84,7 +84,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                     netMineralAcres: this.netMineralAcres,
                     mineralOwnerRoyalty: this.mineralOwnerRoyalty,
                     sectionName: `${this.section}-${this.township}-${this.range}`,
-                    name: `${this.section}-${this.legalEntity}`,
+                    name: `${this.section}-${this.township}-${this.range}-${this.legalEntity}`,
                     section: this.section,
                     township: this.township,
                     range: this.range,
@@ -142,7 +142,7 @@ export const useLandHoldingsStore = defineStore('landHoldingsStore', {
                 }
 
                 updatedData.sectionName = `${updatedData.section}-${updatedData.township}-${updatedData.range}`;
-                updatedData.name = `${updatedData.section}-${updatedData.legalEntity}`;
+                updatedData.name = `${updatedData.section}-${updatedData.township}-${updatedData.range}-${updatedData.legalEntity}`;
 
 
                 await collection.updateOne(
